@@ -1,0 +1,21 @@
+# Arquivos de banco de dados e migrações
+*.sqlite3
+**/migrations/0*.py
+
+# Arquivos de ambiente virtual
+venv/
+env/
+.env
+
+# Arquivos de Python
+__pycache__/
+*.pyc
+*~
+*.log
+
+# Arquivos de Mídia (Imagens/Uploads)
+/media/
+
+# Arquivos de cache e logs do Django
+*.log
+tmp/

@@ -1,0 +1,409 @@
+<SKIPPED_HTML_EDIT_MODE></SKIPPED_HTML_EDIT_MODE>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toyota Corolla 2022 - Cesar Veiculos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gallery-main {
+            transition: all 0.3s ease;
+        }
+        .gallery-thumb {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .gallery-thumb:hover {
+            transform: scale(1.05);
+        }
+        .gallery-thumb.active {
+            border-color: #f97316;
+            transform: scale(1.05);
+        }
+        .specification-card:hover {
+            background-color: #f8fafc;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Header/Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="index.html" class="text-2xl font-bold text-blue-800">Auto<span class="text-orange-500">Mega</span></a>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="index.html#home" class="text-gray-700 hover:text-orange-500 font-medium">Home</a>
+                <a href="index.html#catalogo" class="text-gray-700 hover:text-orange-500 font-medium">Catálogo</a>
+                <a href="index.html#sobre" class="text-gray-700 hover:text-orange-500 font-medium">Sobre Nós</a>
+                <a href="index.html#contato" class="text-gray-700 hover:text-orange-500 font-medium">Contato</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <a href="index.html#catalogo" class="text-orange-500 hover:text-orange-600">
+                    <i class="fas fa-arrow-left mr-1"></i> Voltar ao Catálogo
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="bg-white border-b border-gray-200 py-3">
+        <div class="container mx-auto px-4">
+            <nav class="flex text-sm text-gray-600">
+                <a href="index.html" class="hover:text-orange-500">Home</a>
+                <span class="mx-2">›</span>
+                <a href="index.html#catalogo" class="hover:text-orange-500">Catálogo</a>
+                <span class="mx-2">›</span>
+                <a href="#" class="text-orange-500">Toyota Corolla 2022</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Vehicle Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Vehicle Gallery -->
+            <div>
+                <div class="bg-white rounded-lg shadow-md p-4">
+                    <div class="relative mb-4">
+                        <img id="mainGalleryImage" alt="Imagem principal" class="w-full rounded-lg" src="{{ veiculo.imagem.url }}"
+                             alt="Toyota Corolla 2022 prata em destaque, vista frontal com faróis LED e grade elegante" 
+                             class="w-full h-auto rounded-lg gallery-main">
+                        
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-green-500 text-white text-sm font-bold px-3 py-1 rounded-full">NOVO</span>
+                        </div>
+                        
+                        <div class="absolute top-4 right-4">
+                            <button class="bg-white text-gray-700 p-2 rounded-full shadow-md hover:text-orange-500">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Thumbnail Gallery -->
+
+                    <div class="grid grid-cols-4 gap-2">
+                        
+                        {% if veiculo.imagem %}
+                            <img src="{{ veiculo.imagem.url }}" 
+                                alt="{{ veiculo.marca }} {{ veiculo.modelo }} - Principal" 
+                                class="gallery-thumb w-full h-20 object-cover rounded border-2 border-transparent active"
+                                onclick="changeMainImage(this)">
+                        {% endif %}
+
+                        {% for imagem_adicional in veiculo.imagens_adicionais.all %}
+                            
+                            <img src="{{ imagem_adicional.imagem.url }}" 
+                                alt="Foto {{ forloop.counter }} de {{ veiculo.modelo }}" 
+                                class="gallery-thumb w-full h-20 object-cover rounded border-2 border-transparent"
+                                onclick="changeMainImage(this)">
+                                
+                        {% empty %}
+                            <div class="col-span-4 text-center text-gray-500 text-sm">Nenhuma galeria de fotos adicional.</div>
+                        {% endfor %}
+                    </div>
+
+
+
+                    <!-- Additional Info -->
+                    <div class="mt-6 p-4 bg-orange-50 rounded-lg">
+                        <h3 class="font-bold text-orange-800 mb-2">
+                            <i class="fas fa-certificate mr-2"></i>Veículo Certificado
+                        </h3>
+                        <p class="text-sm text-orange-700">
+                            Este veículo passou por rigorosa inspeção de 200 itens e possui 12 meses de garantia.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vehicle Details and Actions -->
+            <div>
+                <!-- Price and Basic Info -->
+                <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                    <h1 class="text-2xl font-bold text-gray-900 mb-2">{{ veiculo.marca }} {{ veiculo.modelo }} {{veiculo.motor}}</h1>
+                    <p class="text-gray-600 mb-4">{{ veiculo.ano }} • 5.000 km • Prata • {{ veiculo.tipo_combustivel}}</p>
+                    
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <span class="text-3xl font-bold text-blue-900">R$ {{veiculo.preco}}</span>
+                            <span class="text-gray-500 text-sm ml-2">à vista</span>
+                        </div>
+                        <button class="text-gray-600 hover:text-orange-500">
+                            <i class="fas fa-heart fa-2x"></i>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                        <button class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center">
+                            <i class="fas fa-phone-alt mr-2"></i> Falar com Vendedor
+                        </button>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center">
+                            <i class="fas fa-calculator mr-2"></i> Simular Financiamento
+                        </button>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-4 gap-4 text-center">
+                        <div class="p-2">
+                            <i class="fas fa-gas-pump text-2xl text-gray-600 mb-2"></i>
+                            <p class="text-sm font-medium">Flex</p>
+                        </div>
+                        <div class="p-2">
+                            <i class="fas fa-cog text-2xl text-gray-600 mb-2"></i>
+                            <p class="text-sm font-medium">Automático</p>
+                        </div>
+                        <div class="p-2">
+                            <i class="fas fa-door-open text-2xl text-gray-600 mb-2"></i>
+                            <p class="text-sm font-medium">4 Portas</p>
+                        </div>
+                        <div class="p-2">
+                            <i class="fas fa-road text-2xl text-gray-600 mb-2"></i>
+                            <p class="text-sm font-medium">5.000 km</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Specifications -->
+                <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Especificações Técnicas</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="specification-card p-3 rounded-lg border border-gray-200">
+                            <p class="text-sm text-gray-500">Marca</p>
+                            <p class="font-medium">{{veiculo.marca}}</p>
+                        </div>
+                        <div class="specification-card p-3 rounded-lg border border-gray-200">
+                            <p class="text-sm text-gray-500">Modelo</p>
+                            <p class="font-medium">{{veiculo.modelo}}</p>
+                        </div>
+                        <div class="specification-card p-3 rounded-lg border border-gray-200">
+                            <p class="text-sm text-gray-500">Ano</p>
+                            <p class="font-medium">{{veiculo.ano}}</p>
+                        </div>
+                        <div class="specification-card p-3 rounded-lg border border-gray-200">
+                            <p class="text-sm text-gray-500">Quilometragem</p>
+                            <p class="font-medium">5.000 km</p>
+                        </div>
+                        <div class="specification-card p-3 rounded-lg border border-gray-200">
+                            <p class="text-sm text-gray-500">Cor</p>
+                            <p class="font-medium">{{veiculo.cor}}</p>
+                        </div>
+                        <div class="specification-card p-3 rounded-lg border border-gray-200">
+                            <p class="text-sm text-gray-500">Combustível</p>
+                            <p class="font-medium">Flex</p>
+                        </div>
+                        <div class="specification-card p-3 rounded-lg border border-gray-200">
+                            <p class="text-sm text-gray-500">Câmbio</p>
+                            <p class="font-medium">Automático CVT</p>
+                        </div>
+                        <div class="specification-card p-3 rounded-lg border border-gray-200">
+                            <p class="text-sm text-gray-500">Portas</p>
+                            <p class="font-medium">4</p>
+                        </div>
+                        <div class="specification-card p-3 rounded-lg border border-gray-200">
+                            <p class="text-sm text-gray-500">Motor</p>
+                            <p class="font-medium">2.0 16V Flex</p>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <!-- Equipment -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Itens de Série</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm">Ar Condicionado Digital</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm">Direção Elétrica</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm">Vidros e Travas Elétricas</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm">Computador de Bordo</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm">Sensor de Estacionamento</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm">Câmera de Ré</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm">Multimídia com Tela Touch</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm">USB e Bluetooth</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm">Volante com Comandos</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm">Faróis de Neblina</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm">Rodas de Liga Leve 16"</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm">Airbag Duplo</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm">Controle de Tração</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm">ABS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Description and Seller Info -->
+        <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Description -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-bold text-gray-900 mb-4">Descrição do Veículo</h2>
+                <p class="text-gray-700 mb-4">
+                    Toyota Corolla XEi 2022 em excelente estado de conservação, único dono, com toda documentação em dia e histórico de manutenção completo na concessionária. Veículo nunca sofreu acidentes ou sinistros.
+                </p>
+                <p class="text-gray-700 mb-4">
+                    Equipado com ar condicionado digital dual zone, direção elétrica, vidros e travas elétricas, computador de bordo, sensor de estacionamento traseiro, câmera de ré, multimídia com tela de toque 8", USB, Bluetooth, volante com comandos de áudio e cruise control, faróis de neblina, rodas de liga leve aro 16 com pneus novos, entre outros itens de série.
+                </p>
+                <p class="text-gray-700">
+                    O veículo está com revisão em dia, pintura original e interior impecável. Ótimo custo-benefício para quem busca conforto, segurança e economia.
+                </p>
+            </div>
+
+            <!-- Seller Contact -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-bold text-gray-900 mb-4">Entre em Contato</h2>
+                
+                <div class="mb-6">
+                    <h3 class="font-semibold text-gray-800 mb-2">Vendedor Responsável</h3>
+                    <div class="flex items-center mb-4">
+                        <div class="rounded-full overflow-hidden w-16 h-16 mr-4">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/2a51761d-d16d-45af-91d1-1680ed2078c3.png" 
+                                 alt="Carlos Oliveira, consultor de vendas profissional com crachá" 
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <p class="font-bold">Carlos Oliveira</p>
+                            <p class="text-orange-500 text-sm">Consultor de Vendas</p>
+                            <div class="flex mt-1">
+                                <span class="text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </span>
+                                <span class="text-sm text-gray-600 ml-1">4.8 (142 avaliações)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <a href="https://wa.me/551112345678" class="flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                        <i class="fab fa-whatsapp mr-2 text-lg"></i> WhatsApp
+                    </a>
+                    
+                    <a href="tel:+551112345678" class="flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                        <i class="fas fa-phone-alt mr-2"></i> Ligar Agora
+                    </a>
+                    
+                    <button class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg transition duration-300">
+                        <i class="fas fa-envelope mr-2"></i> Enviar E-mail
+                    </button>
+                </div>
+
+                <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                    <h3 class="font-semibold text-blue-800 mb-2">
+                        <i class="fas fa-info-circle mr-2"></i>Informações Importantes
+                    </h3>
+                    <p class="text-sm text-blue-700">
+                        • Test-drive disponível com agendamento<br>
+                        • Aceitamos seu veículo na troca<br>
+                        • Financiamento com as melhores taxas<br>
+                        • Documentação 100% regularizada
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Financing Calculator Modal (would be implemented in real app) -->
+    <div id="financingModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-black bg-opacity-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg p-6 max-w-md w-full">
+                <h3 class="text-xl font-bold mb-4">Simular Financiamento</h3>
+                <p class="text-gray-600 mb-4">Funcionalidade de simulação de financiamento seria implementada aqui com integração a sistemas bancários.</p>
+                <button onclick="closeFinancingModal()" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg">
+                    Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Gallery functionality
+        function changeMainImage(thumb) {
+            const mainImage = document.getElementById('mainGalleryImage');
+            mainImage.src = thumb.src;
+            mainImage.alt = thumb.alt;
+            
+            // Update active state
+            document.querySelectorAll('.gallery-thumb').forEach(img => {
+                img.classList.remove('active');
+                img.classList.remove('border-orange-500');
+                img.classList.add('border-transparent');
+            });
+            
+            thumb.classList.add('active');
+            thumb.classList.add('border-orange-500');
+            thumb.classList.remove('border-transparent');
+        }
+
+        // Financing modal
+        function openFinancingModal() {
+            document.getElementById('financingModal').classList.remove('hidden');
+        }
+
+        function closeFinancingModal() {
+            document.getElementById('financingModal').classList.add('hidden');
+        }
+
+        // Add to favorites
+        document.querySelector('button:hover:text-orange-500').addEventListener('click', function() {
+            this.classList.toggle('text-orange-500');
+            alert('Veículo adicionado aos favoritos!');
+        });
+
+        // Simulate financing button
+        document.querySelector('button:contains("Simular Financiamento")').addEventListener('click', openFinancingModal);
+    </script>
+</body>
+</html>
+
