@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toyota Corolla 2022 - Cesar Veiculos</title>
+    <title>{{veiculo.marca}} {{veiculo.modelo}} {{veiculo.ano}} - Cesar Veiculos</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -31,19 +31,19 @@
 </head>
 <body class="bg-gray-50 font-sans">
     <!-- Header/Navigation -->
-    <header class="bg-white shadow-md sticky top-0 z-50">
+    <header class="bg-black shadow-md sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center">
-                <a href="index.html" class="text-2xl font-bold text-blue-800">Auto<span class="text-orange-500">Mega</span></a>
+                <a href="index.html" class="text-2xl font-bold text-red-500">Cesar<span class="text-white">Veiculos</span></a>
             </div>
             <nav class="hidden md:flex space-x-8">
-                <a href="index.html#home" class="text-gray-700 hover:text-orange-500 font-medium">Home</a>
-                <a href="index.html#catalogo" class="text-gray-700 hover:text-orange-500 font-medium">Catálogo</a>
-                <a href="index.html#sobre" class="text-gray-700 hover:text-orange-500 font-medium">Sobre Nós</a>
-                <a href="index.html#contato" class="text-gray-700 hover:text-orange-500 font-medium">Contato</a>
+                <a href="index.html#home" class="text-white hover:text-red-500 font-medium">Home</a>
+                <a href="index.html#catalogo" class="text-white hover:text-red-500 font-medium">Catálogo</a>
+                <a href="index.html#sobre" class="text-white hover:text-red-500 font-medium">Sobre Nós</a>
+                <a href="index.html#contato" class="text-white hover:text-red-500 font-medium">Contato</a>
             </nav>
             <div class="flex items-center space-x-4">
-                <a href="index.html#catalogo" class="text-orange-500 hover:text-orange-600">
+                <a href="home" class="text-red-500 hover:text-orange-600">
                     <i class="fas fa-arrow-left mr-1"></i> Voltar ao Catálogo
                 </a>
             </div>
@@ -140,7 +140,7 @@
 
                     <!-- Action Buttons -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                        <button class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center">
+                        <button class="bg-red-500 hover:bg-red-400 text-white font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center">
                             <i class="fas fa-phone-alt mr-2"></i> Falar com Vendedor
                         </button>
                         <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center">
@@ -156,15 +156,15 @@
                         </div>
                         <div class="p-2">
                             <i class="fas fa-cog text-2xl text-gray-600 mb-2"></i>
-                            <p class="text-sm font-medium">Automático</p>
+                            <p class="text-sm font-medium">{{veiculo.cambio}}</p>
                         </div>
                         <div class="p-2">
                             <i class="fas fa-door-open text-2xl text-gray-600 mb-2"></i>
-                            <p class="text-sm font-medium">4 Portas</p>
+                            <p class="text-sm font-medium">{{veiculo.portas}} portas</p>
                         </div>
                         <div class="p-2">
                             <i class="fas fa-road text-2xl text-gray-600 mb-2"></i>
-                            <p class="text-sm font-medium">5.000 km</p>
+                            <p class="text-sm font-medium">{{veiculo.quilometragem}} km</p>
                         </div>
                     </div>
                 </div>
@@ -188,7 +188,7 @@
                         </div>
                         <div class="specification-card p-3 rounded-lg border border-gray-200">
                             <p class="text-sm text-gray-500">Quilometragem</p>
-                            <p class="font-medium">5.000 km</p>
+                            <p class="font-medium">`{{veiculo.quilometragem}} km</p>
                         </div>
                         <div class="specification-card p-3 rounded-lg border border-gray-200">
                             <p class="text-sm text-gray-500">Cor</p>
@@ -196,11 +196,11 @@
                         </div>
                         <div class="specification-card p-3 rounded-lg border border-gray-200">
                             <p class="text-sm text-gray-500">Combustível</p>
-                            <p class="font-medium">Flex</p>
+                            <p class="font-medium">{{veiculo.tipo_combustivel}}</p>
                         </div>
                         <div class="specification-card p-3 rounded-lg border border-gray-200">
                             <p class="text-sm text-gray-500">Câmbio</p>
-                            <p class="font-medium">Automático CVT</p>
+                            <p class="font-medium">{{veiculo.cambio}}</p>
                         </div>
                         <div class="specification-card p-3 rounded-lg border border-gray-200">
                             <p class="text-sm text-gray-500">Portas</p>
@@ -208,7 +208,7 @@
                         </div>
                         <div class="specification-card p-3 rounded-lg border border-gray-200">
                             <p class="text-sm text-gray-500">Motor</p>
-                            <p class="font-medium">2.0 16V Flex</p>
+                            <p class="font-medium">{{veiculo.motor}}</p>
                         </div>
                         
                     </div>
