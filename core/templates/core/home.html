@@ -28,19 +28,22 @@
 </head>
 <body class="bg-gray-50 font-sans">
     <!-- Header/Navigation -->
-    <header class="bg-white shadow-md sticky top-0 z-50">
+    <header class="bg-black shadow-md sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center">
-                <h1 class="text-2xl font-bold text-red-800">Cesar<span class="text-black-500">Veiculos</span></h1>
+                <a href="index.html" class="text-2xl font-bold text-red-500">Cesar<span class="text-white">Veiculos</span></a>
             </div>
             <nav class="hidden md:flex space-x-8">
-                <a href="#home" class="text-gray-700 hover:text-orange-500 font-medium">Home</a>
-                <a href="#catalogo" class="text-gray-700 hover:text-orange-500 font-medium">Catálogo</a>
-                <a href="#sobre" class="text-gray-700 hover:text-orange-500 font-medium">Sobre Nós</a>
-                <a href="#contato" class="text-gray-700 hover:text-orange-500 font-medium">Contato</a>
+                <a href="index.html#home" class="text-white hover:text-red-500 font-medium">Home</a>
+                <a href="index.html#catalogo" class="text-white hover:text-red-500 font-medium">Catálogo</a>
+                <a href="index.html#sobre" class="text-white hover:text-red-500 font-medium">Sobre Nós</a>
+                <a href="index.html#contato" class="text-white hover:text-red-500 font-medium">Contato</a>
             </nav>
-            <div class="md:hidden">
-                <button id="mobile-menu-button" class="text-gray-700">
+            <div class="flex items-center space-x-4">
+                <a href="#" class="text-white hover:text-red-500">
+                    <i class="fas fa-user-circle text-2xl"></i>
+                </a>
+                <button id="mobile-menu-button" class="md:hidden text-white hover:text-red-500 focus:outline-none">
                     <i class="fas fa-bars text-2xl"></i>
                 </button>
             </div>
@@ -48,7 +51,7 @@
     </header>
 
     <!-- Hero Banner - Promotions -->
-    <section id="home" class="relative bg-gray-900 text-white">
+    <section id="home" class="relative bg-black text-white">
         <div class="max-w-7xl mx-auto px-4 py-16 sm:py-24 sm:px-6 lg:px-8">
             <div class="text-center">
                 <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
@@ -204,7 +207,7 @@
                 </div>
                 
                 <div class="mt-3">
-                    <span class="text-blue-900 text-xl font-bold">R$ {{ veiculo.preco|floatformat:2 }}</span>
+                    <span class="text-blue-900 text-xl font-bold">R$ {{ veiculo.preco }}</span>
                 </div>
                 
                 <a href="{% url 'veiculo_detalhe' veiculo.pk %}"
@@ -219,30 +222,7 @@
     </div>
                 </div>
 
-                <!-- Vehicle 4 -->
-                <div class="vehicle-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
-                    <div class="relative">
-                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/20b870f9-07e8-431f-b713-bd4a15faf058.png" alt="Ford Ranger 2022 preta, vista frontal com grade esportiva e faróis de LED" class="w-full h-48 object-cover" />
-                        <span class="absolute top-2 left-2 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">PROMOÇÃO</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-bold text-gray-900">Ford Ranger 2022</h3>
-                        <div class="flex items-center mt-2">
-                            <span class="text-orange-500 text-sm font-medium"><i class="fas fa-tachometer-alt mr-1"></i> 35.000 km</span>
-                            <span class="text-gray-500 text-sm mx-2">|</span>
-                            <span class="text-gray-700 text-sm"><i class="fas fa-gas-pump mr-1"></i> Diesel</span>
-                        </div>
-                        <div class="mt-3">
-                            <span class="text-blue-900 text-xl font-bold">R$ 189.990</span>
-                            <span class="text-orange-500 text-sm ml-2 line-through">R$ 199.990</span>
-                        </div>
-                        <button class="mt-4 w-full bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-lg transition duration-300 vehicle-detail" 
-                                data-id="4">
-                            Ver detalhes
-                        </button>
-                    </div>
-                </div>
-            </div>
+                
             
             <div class="mt-8 text-center">
                 <button class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg transition duration-300">
@@ -365,110 +345,6 @@
         </div>
     </footer>
 
-    <!-- Vehicle Detail Modal -->
-    <div id="vehicleModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-                <div class="absolute inset-0 bg-gray-900 opacity-75"></div>
-            </div>
-            
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">​</span>
-            
-            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-6xl sm:w-full">
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <div class="sm:flex sm:items-start">
-                        <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
-                            <div class="flex justify-between items-start">
-                                <h3 class="text-2xl leading-6 font-bold text-gray-900 mb-4" id="modal-title">Toyota Corolla 2022</h3>
-                                <button type="button" class="modal-close text-gray-400 hover:text-gray-500">
-                                    <i class="fas fa-times text-2xl"></i>
-                                </button>
-                            </div>
-                            
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                                <!-- Vehicle Gallery -->
-                                <div>
-                                    <div class="mb-4">
-                                        <img id="mainImage" src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/eff2672a-b973-423d-9150-6738fe289291.png" alt="Toyota Corolla 2022 prata em destaque, vista frontal com faróis LED" class="w-full h-auto rounded-lg" />
-                                    </div>
-                                    <div class="grid grid-cols-4 gap-2 vehicle-gallery">
-                                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e182ada3-da24-466f-ad6f-1887769fe4d2.png" alt="Toyota Corolla vista frontal" class="cursor-pointer border-2 border-transparent hover:border-orange-500 rounded" />
-                                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/dc41f0c3-cddf-41b2-bac8-586c6e089a56.png" alt="Toyota Corolla vista traseira" class="cursor-pointer border-2 border-transparent hover:border-orange-500 rounded" />
-                                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/272d8cc1-3e7c-4e4a-8324-5619862cd0f8.png" alt="Toyota Corolla interior em couro" class="cursor-pointer border-2 border-transparent hover:border-orange-500 rounded" />
-                                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0e100e99-6707-4978-8479-58d12b77eafd.png" alt="Toyota Corolla painel digital" class="cursor-pointer border-2 border-transparent hover:border-orange-500 rounded" />
-                                    </div>
-                                </div>
-                                
-                                <!-- Vehicle Details -->
-                                <div>
-                                    <div class="bg-gray-100 p-4 rounded-lg mb-4">
-                                        <div class="flex justify-between items-center">
-                                            <div>
-                                                <span class="text-blue-900 text-2xl font-bold">R$ 129.990</span>
-                                                <span class="text-gray-500 text-sm ml-2">ou 48x R$ 2.708</span>
-                                            </div>
-                                            <span class="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">NOVO</span>
-                                        </div>
-                                        
-                                        <div class="mt-4 grid grid-cols-2 gap-4">
-                                            <div>
-                                                <p class="text-xs text-gray-500">Marca</p>
-                                                <p class="font-medium">Toyota</p>
-                                            </div>
-                                            <div>
-                                                <p class="text-xs text-gray-500">Modelo</p>
-                                                <p class="font-medium">Corolla XEi</p>
-                                            </div>
-                                            <div>
-                                                <p class="text-xs text-gray-500">Ano</p>
-                                                <p class="font-medium">2022</p>
-                                            </div>
-                                            <div>
-                                                <p class="text-xs text-gray-500">Km</p>
-                                                <p class="font-medium">5.000 km</p>
-                                            </div>
-                                            <div>
-                                                <p class="text-xs text-gray-500">Cor</p>
-                                                <p class="font-medium">Prata</p>
-                                            </div>
-                                            <div>
-                                                <p class="text-xs text-gray-500">Combustível</p>
-                                                <p class="font-medium">Flex</p>
-                                            </div>
-                                            <div>
-                                                <p class="text-xs text-gray-500">Câmbio</p>
-                                                <p class="font-medium">Automático</p>
-                                            </div>
-                                            <div>
-                                                <p class="text-xs text-gray-500">Portas</p>
-                                                <p class="font-medium">4</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="mb-6">
-                                        <h4 class="font-bold text-gray-800 mb-2">Descrição</h4>
-                                        <p class="text-gray-600">
-                                            Toyota Corolla XEi 2022 em excelente estado, único dono, com toda documentação em dia. Veículo equipado com ar condicionado digital, direção elétrica, vidros e travas elétricas, computador de bordo, sensor de estacionamento traseiro, câmera de ré, multimídia com tela de toque, USB, Bluetooth, volante com comandos, faróis de neblina, rodas de liga leve aro 16, entre outros itens de série.
-                                        </p>
-                                    </div>
-                                    
-                                    <div class="flex flex-col sm:flex-row gap-4">
-                                        <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 flex-1">
-                                            <i class="fas fa-calculator mr-2"></i> Simular Financiamento
-                                        </button>
-                                        <button class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 flex-1">
-                                            <i class="fas fa-phone-alt mr-2"></i> Entrar em Contato
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script>
         // Mobile menu toggle

@@ -17,7 +17,7 @@ class Veiculo(models.Model):
     tipo_combustivel = models.CharField(max_length=5, choices=TIPOS_COMBUSTIVEL)
     portas = models.PositiveIntegerField(default=4)
     motor = models.CharField(max_length=20)  # ex: "1.0", "2.0 Turbo"
-    preco = models.DecimalField(max_digits=10, decimal_places=2)
+    preco = models.TextField()
     descricao = models.TextField(blank=True, null=True)
     imagem = models.ImageField(upload_to='veiculos/imagens', blank=True, null=True)
     cambio = models.CharField(max_length=20, blank=True, null=True)  # ex: "Manual", "Automático"

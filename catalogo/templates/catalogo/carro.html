@@ -43,7 +43,7 @@
                 <a href="index.html#contato" class="text-white hover:text-red-500 font-medium">Contato</a>
             </nav>
             <div class="flex items-center space-x-4">
-                <a href="home" class="text-red-500 hover:text-orange-600">
+                <a href="" class="text-red-500 hover:text-orange-600">
                     <i class="fas fa-arrow-left mr-1"></i> Voltar ao Catálogo
                 </a>
             </div>
@@ -58,7 +58,7 @@
                 <span class="mx-2">›</span>
                 <a href="index.html#catalogo" class="hover:text-orange-500">Catálogo</a>
                 <span class="mx-2">›</span>
-                <a href="#" class="text-orange-500">Toyota Corolla 2022</a>
+                <a href="#" class="text-orange-500">{{veiculo.marca}} {{veiculo.modelo}} {{veiculo.ano}}</a>
             </nav>
         </div>
     </div>
@@ -70,8 +70,7 @@
             <div>
                 <div class="bg-white rounded-lg shadow-md p-4">
                     <div class="relative mb-4">
-                        <img id="mainGalleryImage" alt="Imagem principal" class="w-full rounded-lg" src="{{ veiculo.imagem.url }}"
-                             alt="Toyota Corolla 2022 prata em destaque, vista frontal com faróis LED e grade elegante" 
+                        <img id="mainGalleryImage" alt="Imagem principal" class="w-full rounded-lg" src="{{ veiculo.imagem.url }}" 
                              class="w-full h-auto rounded-lg gallery-main">
                         
                         <div class="absolute top-4 left-4">
@@ -309,7 +308,7 @@
                                  class="w-full h-full object-cover">
                         </div>
                         <div>
-                            <p class="font-bold">Carlos Oliveira</p>
+                            <p class="font-bold">Paulo Cesar</p>
                             <p class="text-orange-500 text-sm">Consultor de Vendas</p>
                             <div class="flex mt-1">
                                 <span class="text-yellow-400">
@@ -326,11 +325,11 @@
                 </div>
 
                 <div class="space-y-3">
-                    <a href="https://wa.me/551112345678" class="flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                    <a href="https://wa.me/5514998138869" class="flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
                         <i class="fab fa-whatsapp mr-2 text-lg"></i> WhatsApp
                     </a>
                     
-                    <a href="tel:+551112345678" class="flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                    <a href="tel:+5514998138869" class="flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
                         <i class="fas fa-phone-alt mr-2"></i> Ligar Agora
                     </a>
                     
