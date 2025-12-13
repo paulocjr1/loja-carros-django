@@ -1,0 +1,18 @@
+{% load static %}
+<header class="bg-black shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="{% url 'home' %}" class="text-2xl font-bold text-red-500">Cesar<span class="text-white">Veiculos</span></a>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="{% url 'home' %}#home" class="text-white hover:text-red-500 font-medium">Home</a>
+                <a href="{% url 'home' %}#catalogo" class="text-white hover:text-red-500 font-medium">Catálogo</a>
+                <a href="{% url 'home' %}#contato" class="text-white hover:text-red-500 font-medium">Contato</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <button id="mobile-menu-button" class="md:hidden text-white hover:text-red-500 focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
