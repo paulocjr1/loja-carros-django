@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhe do Lead</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body { background-color: #f4f6f9; }
+        .card { border-radius: 12px; }
+        .label { font-weight: 600; color: #555; }
+    </style>
+</head>
+
+<body>
+
+<div class="container py-5">
+
+    <div class="mb-4">
+        <a href="{% url 'lista_leads' %}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Voltar
+        </a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <h3 class="fw-bold mb-4">
+                📋 Detalhe do Lead #{{ lead.id }}
+            </h3>
+
+            <div class="row g-3">
+
+                <div class="col-md-6">
+                    <div class="label">Nome</div>
+                    <div>{{ lead.nome }}</div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="label">Telefone</div>
+                    <div>{{ lead.telefone }}</div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="label">CPF</div>
+                    <div>{{ lead.cpf }}</div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="label">Data de nascimento</div>
+                    <div>{{ lead.data_nascimento|date:"d/m/Y" }}</div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="label">Possui CNH</div>
+                    <div>
+                        {% if lead.possui_cnh %}
+                            <span class="badge bg-success">Sim</span>
+                        {% else %}
+                            <span class="badge bg-danger">Não</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="label">Data do cadastro</div>
+                    <div>{{ lead.criado_em|date:"d/m/Y H:i" }}</div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="label">Valor de Entrada</div>
+                    <div>{{ lead.valor_entrada}}</div>
+                </div>
+
+                <div class="col-12 mt-3">
+                    <div class="label">Veículo de interesse</div>
+                    <div class="p-3 bg-light rounded">
+                        {{ lead.veiculo.marca }} {{ lead.veiculo.modelo }} - {{ lead.veiculo.ano }}
+                    </div>
+                    <a href="https://wa.me/{{ lead.telefone}}" target="_blank"
+                       class="btn btn-success mt-3">
+                        <i class="fab fa-whatsapp me-2"></i> Enviar mensagem
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
