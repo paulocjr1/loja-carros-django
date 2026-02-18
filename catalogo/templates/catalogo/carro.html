@@ -152,12 +152,15 @@
 
                     <!-- Action Buttons -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                        <button class="bg-red-500 hover:bg-red-400 text-white font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center">
-                            <i class="fas fa-phone-alt mr-2"></i> Falar com Vendedor
-                        </button>
-                        <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center">
+                        <a href="tel:+5514998138869"
+                        class="bg-red-500 hover:bg-red-400 text-white font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center">
+                    <i class="fas fa-phone-alt mr-2"></i> Falar com Vendedor
+            </a>
+
+                        <a href="{% url 'simular_financiamento' veiculo.id %}"
+                            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center">
                             <i class="fas fa-calculator mr-2"></i> Simular Financiamento
-                        </button>
+                        </a>
                     </div>
 
                     <!-- Quick Stats -->
@@ -346,9 +349,11 @@
                         <i class="fas fa-phone-alt mr-2"></i> Ligar Agora
                     </a>
                     
-                    <button class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg transition duration-300">
-                        <i class="fas fa-envelope mr-2"></i> Enviar E-mail
-                    </button>
+                    <a href="https://www.instagram.com/cesar.veiculos_/" target="_blank" rel="noopener noreferrer" class="w-full inline-block">
+                        <button class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center">
+                            <i class="fab fa-instagram mr-2"></i> Acessar Instagram
+                        </button>
+                    </a>
                 </div>
 
                 <div class="mt-6 p-4 bg-blue-50 rounded-lg">

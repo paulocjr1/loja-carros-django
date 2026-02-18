@@ -78,7 +78,7 @@
                 </div>
                 <div class="bg-white p-4 rounded-lg shadow text-center hover:bg-orange-100 cursor-pointer transition">
                     <i class="fas fa-exchange-alt text-3xl text-orange-500 mb-2"></i>
-                    <p class="font-medium">Trocas</p>
+                    <p class="font-medium">Compramos seu carro!</p>
                 </div>
                 <div class="bg-white p-4 rounded-lg shadow text-center hover:bg-orange-100 cursor-pointer transition">
                     <i class="fas fa-hand-holding-usd text-3xl text-orange-500 mb-2"></i>
@@ -143,7 +143,7 @@
     {% for veiculo in veiculos %}
         <div class="vehicle-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
             <div class="relative">
-                
+
                 {% if veiculo.imagem %}
                     <img src="{{ veiculo.imagem.url }}" 
                         alt="{{ veiculo.marca }} {{ veiculo.modelo }} {{ veiculo.ano }}" 
@@ -222,20 +222,9 @@
                     
                     <div class="mt-6">
                         <h4 class="font-bold text-gray-800 mb-3">Mande uma mensagem</h4>
-                        <form>
-                            <div class="mb-4">
-                                <input type="text" placeholder="Seu nome" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
-                            </div>
-                            <div class="mb-4">
-                                <input type="email" placeholder="Seu e-mail" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
-                            </div>
-                            <div class="mb-4">
-                                <textarea placeholder="Sua mensagem" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"></textarea>
-                            </div>
-                            <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg transition duration-300">
-                                Enviar Mensagem
-                            </button>
-                        </form>
+                            <a href="https://wa.me/5514998138869" class="flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                        <i class="fab fa-whatsapp mr-2 text-lg"></i> WhatsApp
+                    </a>
                     </div>
                 </div>
                 
