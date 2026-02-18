@@ -1,0 +1,8 @@
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    {{ form_lead.as_p }}
+    {{ form_imagens.as_p }}
+    
+    <button type="submit" class="btn btn-success">Enviar Veículo</button>
+</form>
