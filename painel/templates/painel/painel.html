@@ -45,8 +45,22 @@
 
             <ul class="nav flex-column gap-2">
                 <li class="nav-item">
-                    <a class="nav-link rounded px-3 py-2" href="{% url 'painel' %}">
-                        <i class="fas fa-car me-2"></i> Veículos
+                    <a class="nav-link rounded px-3 py-2 flex items-center gap-2" href="{% url 'painel' %}">
+                        <i class="fas fa-car"></i> Veículos
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link rounded px-3 py-2 flex items-center gap-2 text-purple-600 hover:bg-purple-100" 
+                    href="{% url 'lista_leads' %}">
+                        <i class="fas fa-file-alt"></i> Leads de Financiamento
+                    </a>
+                </li>
+
+            <li class="nav-item">
+                    <li class="nav-item">
+                    <a class="nav-link rounded px-3 py-2 d-flex align-items-center gap-2" href="{% url 'lead_vendas' %}">
+                        <i class="fas fa-money-bill-wave"></i> Leads de Carros Oferecidos
                     </a>
                 </li>
 
