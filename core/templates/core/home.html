@@ -143,10 +143,22 @@
     {% for veiculo in veiculos %}
         <div class="vehicle-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
             <div class="relative">
-                <img src="{{ veiculo.imagem.url }}" 
-                     alt="{{ veiculo.marca }} {{ veiculo.modelo }} {{ veiculo.ano }}" 
-                     class="w-full h-48 object-cover" />
                 
+                {% if veiculo.imagem %}
+                    <img src="{{ veiculo.imagem.url }}" 
+                        alt="{{ veiculo.marca }} {{ veiculo.modelo }} {{ veiculo.ano }}" 
+                        class="w-full h-48 object-cover" />
+                {% elif veiculo.imagens_adicionais.all %}
+                    <img src="{{ veiculo.imagens_adicionais.first.imagem.url }}" 
+                        alt="{{ veiculo.marca }} {{ veiculo.modelo }} {{ veiculo.ano }}" 
+                        class="w-full h-48 object-cover" />
+                {% else %}
+                    <img src="/static/img/sem-imagem.png" 
+                        alt="Sem imagem" 
+                        class="w-full h-48 object-cover" />
+                {% endif %}
+
+
                 {% if veiculo.km_rodados < 1000 %}
                     <span class="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">NOVO</span>
                 {% else %}

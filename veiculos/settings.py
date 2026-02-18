@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-308y_y8+vnik@1cu@!v_5udb1r65lvxzs)j0-g!@8w0t*nih(g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'influential-elina-nonforensically.ngrok-free.dev'
+    ]
 
 
 # Application definition
@@ -38,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
-    'catalogo'
+    'catalogo',
+    'painel'
 ]
 
 MIDDLEWARE = [
@@ -124,3 +129,9 @@ STATICFILES_DIRS = []
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = '/painel/'
+LOGOUT_REDIRECT_URL = '/login/'
+CSRF_TRUSTED_ORIGINS = [
+    "https://influential-elina-nonforensically.ngrok-free.dev",
+]
