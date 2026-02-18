@@ -43,8 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'catalogo',
-    'painel'
-]
+    'painel',
+    'financiamento',
+    'vendas'
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

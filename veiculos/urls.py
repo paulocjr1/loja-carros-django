@@ -11,6 +11,8 @@ urlpatterns = [
     path('painel/', include('painel.urls')),
     path("login/", auth_views.LoginView.as_view(template_name="painel/login.html"), name="login"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    path('financiamento/', include('financiamento.urls')),
+    path('vendas/', include('vendas.urls')),
 ]
 
 if settings.DEBUG:
