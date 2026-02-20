@@ -1,9 +1,8 @@
 {% extends 'core/base.html' %}
 {% load static %}
-
 <body class="bg-gray-50 font-sans">
 
-{% load static %}
+
 
 {% block title %}Catálogo de Veículos | Cesar Veiculos{% endblock %}
 {% block content %}
@@ -32,40 +31,42 @@
     </section>
 
     <!-- Quick Search Section -->
-    <section class="bg-gray-100 py-12 px-4">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Busca Rápida</h2>
-            
-            <div class="bg-white p-6 rounded-lg shadow-md max-w-4xl mx-auto">
-                <div class="relative">
-                    <div class="flex flex-col md:flex-row gap-4">
-                        <div class="relative flex-1">
-                            <input type="text" id="quick-search" placeholder="Marca ou modelo" 
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
-                            <div class="search-dropdown absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
-                                <div class="p-2 hover:bg-gray-100 cursor-pointer">Toyota Corolla</div>
-                                <div class="p-2 hover:bg-gray-100 cursor-pointer">Honda Civic</div>
-                                <div class="p-2 hover:bg-gray-100 cursor-pointer">Volkswagen Golf</div>
-                            </div>
-                        </div>
-                        <select class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
-                            <option value="">Todas as marcas</option>
-                            <option value="toyota">Toyota</option>
-                            <option value="honda">Honda</option>
-                            <option value="volkswagen">Volkswagen</option>
-                        </select>
-                        <select class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
-                            <option value="">Qualquer preço</option>
-                            <option value="1">Até R$ 50.000</option>
-                            <option value="2">R$ 50.000 - R$ 100.000</option>
-                            <option value="3">Acima de R$ 100.000</option>
-                        </select>
-                        <button class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
-                            Buscar
-                        </button>
+        <section class="bg-gray-100 py-12 px-4">
+    <div class="max-w-7xl mx-auto">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Busca Rápida</h2>
+
+        <!-- Container centralizado e menor -->
+        <div class="bg-white p-6 rounded-lg shadow-md max-w-2xl mx-auto">
+            <div class="flex items-center justify-center gap-3">
+
+                <!-- Input -->
+                <div class="relative w-full max-w-md">
+                    <input 
+                        type="text" 
+                        id="quick-search" 
+                        placeholder="Marca ou modelo"
+                        autocomplete="off"
+                        class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md 
+                               focus:ring-2 focus:ring-orange-500">
+
+                    <!-- Dropdown -->
+                    <div id="search-results"
+                        class="absolute z-10 w-full mt-1 bg-white border border-gray-300 
+                               rounded-lg shadow-lg hidden">
                     </div>
                 </div>
+
+                <!-- Botão Buscar -->
+                <button id="qs-btn"
+                    class="bg-orange-500 hover:bg-orange-600 text-white 
+                           px-5 py-2 text-sm font-semibold rounded-md transition whitespace-nowrap">
+                    Buscar
+                </button>
+
             </div>
+        </div>
+    </div>
+</section>
             
             <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
                 <div class="bg-white p-4 rounded-lg shadow text-center hover:bg-orange-100 cursor-pointer transition">
@@ -76,10 +77,12 @@
                     <i class="fas fa-percentage text-3xl text-orange-500 mb-2"></i>
                     <p class="font-medium">Promoções</p>
                 </div>
-                <div class="bg-white p-4 rounded-lg shadow text-center hover:bg-orange-100 cursor-pointer transition">
-                    <i class="fas fa-exchange-alt text-3xl text-orange-500 mb-2"></i>
-                    <p class="font-medium">Compramos seu carro!</p>
-                </div>
+                <a href="{% url 'enviar_veiculo' %}" class="block">
+                    <div class="bg-white p-4 rounded-lg shadow text-center hover:bg-orange-100 cursor-pointer transition">
+                        <i class="fas fa-exchange-alt text-3xl text-orange-500 mb-2"></i>
+                        <p class="font-medium">Compramos seu carro!</p>
+                    </div>
+                </a>
                 <div class="bg-white p-4 rounded-lg shadow text-center hover:bg-orange-100 cursor-pointer transition">
                     <i class="fas fa-hand-holding-usd text-3xl text-orange-500 mb-2"></i>
                     <p class="font-medium">Financiamento</p>
@@ -93,49 +96,53 @@
         <div class="max-w-7xl mx-auto">
             <h2 class="text-3xl font-bold text-gray-900 mb-8">Catálogo de Veículos</h2>
             
-            <!-- Filters -->
-            <div class="bg-gray-100 p-6 rounded-lg mb-8">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
-                    <select class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
-                        <option value="">Marca</option>
-                        <option>Toyota</option>
-                        <option>Honda</option>
-                        <option>Volkswagen</option>
-                        <option>Ford</option>
-                        <option>Chevrolet</option>
-                    </select>
-                    <select class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
-                        <option value="">Ano</option>
-                        <option>2020-2023</option>
-                        <option>2015-2019</option>
-                        <option>2010-2014</option>
-                    </select>
-                    <select class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
-                        <option value="">Km</option>
-                        <option>Até 10.000 km</option>
-                        <option>10.000 - 50.000 km</option>
-                        <option>50.000 - 100.000 km</option>
-                    </select>
-                    <select class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
-                        <option value="">Preço</option>
-                        <option>Até R$ 50.000</option>
-                        <option>R$ 50.000 - R$ 100.000</option>
-                        <option>Acima de R$ 100.000</option>
-                    </select>
-                    <select class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
-                        <option value="">Cor</option>
-                        <option>Branco</option>
-                        <option>Preto</option>
-                        <option>Prata</option>
-                        <option>Vermelho</option>
-                    </select>
-                    <select class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
-                        <option value="">Tipo</option>
-                        <option>Novo</option>
-                        <option>Seminovo</option>
-                    </select>
-                </div>
-            </div>
+          <form method="GET" action="#catalogo" class="bg-gray-100 p-6 rounded-lg mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+
+        <select name="marca" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
+            <option value="">Marca</option>
+            {% for marca in marcas %}
+                <option value="{{ marca }}" {% if request.GET.marca == marca %}selected{% endif %}>{{ marca }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="ano" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
+            <option value="">Ano</option>
+            <option value="1995-2005">1995-2005</option>
+            <option value="2005-2010">2005-2010</option>
+            <option value="2010-2025">2010-2025</option>
+        </select>
+
+        <select name="preco" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
+            <option value="">Preço</option>
+            <option value="0-20000">Até R$ 20.000</option>
+            <option value="20000-30000">R$ 20.000 - R$ 30.000</option>
+            <option value="30000-9999999">Acima de R$ 30.000</option>
+        </select>
+
+        <select name="cor" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
+            <option value="">Cor</option>
+            <option>Branco</option>
+            <option>Preto</option>
+            <option>Prata</option>
+            <option>Vermelho</option>
+        </select>
+
+
+    </div>
+
+    <div class="mt-4 flex gap-3">
+        <button type="submit" 
+            class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-semibold transition">
+            <i class="fas fa-search mr-2"></i> Filtrar
+        </button>
+
+        <a href="?#catalogo" 
+           class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-2 rounded-lg font-semibold transition">
+            Limpar
+        </a>
+    </div>
+</form>
             
             <!-- Vehicle Listing -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -143,6 +150,7 @@
     {% for veiculo in veiculos %}
         <div class="vehicle-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
             <div class="relative">
+                <a href="/veiculos/{{ veiculo.id }}/" class="block">
 
                 {% if veiculo.imagem %}
                     <img src="{{ veiculo.imagem.url }}" 
@@ -170,7 +178,7 @@
                 <h3 class="text-xl font-bold text-gray-900">{{ veiculo.marca }} {{ veiculo.modelo }} {{ veiculo.ano }}</h3>
                 
                 <div class="flex items-center mt-2">
-                    <span class="text-orange-500 text-sm font-medium"><i class="fas fa-tachometer-alt mr-1"></i> 5.000 km</span>
+                    <span class="text-orange-500 text-sm font-medium"><i class="fas fa-tachometer-alt mr-1"></i> {{ veiculo.quilometragem }} km</span>
                     <span class="text-gray-500 text-sm mx-2">|</span>
                     <span class="text-gray-700 text-sm"><i class="fas fa-gas-pump mr-1"></i> {{ veiculo.get_tipo_combustivel_display }}</span>
                 </div>
@@ -189,7 +197,7 @@
         <p class="col-span-full text-center text-gray-600">Nenhum veículo encontrado no momento.</p>
     {% endfor %}
     </div>
-                </div>
+    </div>
 
                 
             
@@ -243,6 +251,8 @@
     <!-- Footer -->
     {% include 'core/includes/footer.html' %}
 {% block extra_js %}
+    <script src="{% static 'core/js/quick_search.js' %}"></script>
+{% endblock %}
     <script>
         // Mobile menu toggle
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
@@ -253,12 +263,12 @@
         // Quick search functionality
         const quickSearch = document.getElementById('quick-search');
         quickSearch.addEventListener('focus', function() {
-            document.querySelector('.search-dropdown').style.display = 'block';
+            document.querySelector('search-results').style.display = 'block';
         });
         
         quickSearch.addEventListener('blur', function() {
             setTimeout(() => {
-                document.querySelector('.search-dropdown').style.display = 'none';
+                document.querySelector('search-results').style.display = 'none';
             }, 200);
         });
         
@@ -307,7 +317,7 @@
             }
         });
     </script>
-{% endblock %}
+
 </body>
 </html>
 
