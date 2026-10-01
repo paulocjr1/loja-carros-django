@@ -32,3 +32,5 @@ Thumbs.db
 media/
 veiculos/imagens/
 uploads/
+.vercel
+.env*
