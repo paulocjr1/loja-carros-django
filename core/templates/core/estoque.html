@@ -33,23 +33,25 @@
         .site-header nav.links a:hover::after{width:100%}
         .site-header .cta-btn{display:inline-block;background:var(--red);color:#fff;border:1px solid var(--red);border-radius:2px;padding:12px 22px;font:700 13px var(--font-body);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;transition:background .2s,transform .15s}
         .site-header .cta-btn:hover{background:var(--red-dark);border-color:var(--red-dark);transform:translateY(-1px)}
-        .site-header .burger{display:none;background:none;border:0;color:var(--ink);font:26px var(--font-body);cursor:pointer}
-        @media(max-width:920px){.site-header nav.links{display:none}.site-header .burger{display:block}}
-        @media(max-width:600px){.site-header .nav{padding:18px 16px}}
+        .site-header .burger{display:none;width:44px;height:44px;flex:0 0 44px;align-items:center;justify-content:center;background:none;border:1px solid var(--border);border-radius:3px;color:var(--ink);font:26px/1 var(--font-body);cursor:pointer}
+        .site-header .mobile-whatsapp{display:none}
+        @media(max-width:920px){.site-header .nav{gap:14px}.site-header nav.links{display:none}.site-header nav.links.is-open{position:absolute;top:100%;left:0;right:0;z-index:101;display:flex;flex-direction:column;align-items:stretch;gap:0;width:auto;padding:8px 20px 18px;background:var(--bg);border-bottom:1px solid var(--border);box-shadow:0 12px 24px rgba(20,20,22,.1)}.site-header nav.links.is-open a{padding:12px 0}.site-header .burger{display:flex}.site-header .mobile-whatsapp{display:block;margin-top:8px;padding:12px 16px!important;background:var(--red);border-radius:3px;color:#fff!important;text-align:center}}
+        @media(max-width:600px){.site-header .nav{width:100%;min-height:68px;gap:10px;padding:10px 16px}.site-header .logo{min-width:0;font-size:clamp(17px,5vw,20px);letter-spacing:.2px;white-space:normal}.site-header .logo .tag{font-size:8px;letter-spacing:1px}.site-header .nav>div{gap:0!important}.site-header .cta-btn{display:none}.site-header .burger{width:44px;height:44px}}
     </style>
 </head>
 <body>
 <header class="site-header"><div class="wrap nav">
     <a href="{% url 'home' %}#top" class="logo"><span class="cesar">CESAR<span class="veiculos"> VEÍCULOS</span></span><span class="tag">VENDA · TROCA · COMPRA · FINANCIO</span></a>
-    <nav class="links">
+    <nav class="links" id="site-menu">
         <a href="{% url 'estoque' %}">Estoque</a>
         <a href="{% url 'enviar_veiculo' %}">Venda seu veículo</a>
         <a href="{% url 'financie' %}">Financie</a>
         <a href="{% url 'home' %}#localizacao">Localização</a>
+        <a class="mobile-whatsapp" href="https://wa.me/5514998138869">Falar no WhatsApp</a>
     </nav>
     <div style="display:flex;gap:10px;align-items:center">
         <a class="cta-btn" href="https://wa.me/5514998138869">Falar no WhatsApp</a>
-        <button class="burger" aria-label="Abrir menu">☰</button>
+        <button class="burger" type="button" aria-label="Abrir menu" aria-controls="site-menu" aria-expanded="false">☰</button>
     </div>
 </div></header>
 <section class="hero"><div class="wrap"><div class="eyebrow">Estoque completo</div><h1>Encontre seu próximo carro</h1><p>Use os filtros para encontrar o veículo que combina com você.</p></div></section>
@@ -112,20 +114,14 @@
         filters.classList.toggle('is-open', !isOpen);
     });
 
-    document.querySelector('.burger').addEventListener('click', function(){
-        const links = document.querySelector('nav.links');
-        const open = links.style.display === 'flex';
-        links.style.display = open ? 'none' : 'flex';
-        links.style.flexDirection = 'column';
-        links.style.position = 'absolute';
-        links.style.top = '100%';
-        links.style.left = '0';
-        links.style.right = '0';
-        links.style.background = '#fdfcf8';
-        links.style.padding = '20px 24px';
-        links.style.borderBottom = '1px solid #e5e1d3';
-        links.style.boxShadow = '0 12px 24px rgba(20,20,22,0.08)';
-        links.style.gap = '18px';
+    const menuToggle = document.querySelector('.site-header .burger');
+    const siteMenu = document.getElementById('site-menu');
+    menuToggle.addEventListener('click', function(){
+        const isOpen = this.getAttribute('aria-expanded') === 'true';
+        this.setAttribute('aria-expanded', String(!isOpen));
+        this.setAttribute('aria-label', isOpen ? 'Abrir menu' : 'Fechar menu');
+        this.textContent = isOpen ? '☰' : '×';
+        siteMenu.classList.toggle('is-open', !isOpen);
     });
 </script>
 </body>
