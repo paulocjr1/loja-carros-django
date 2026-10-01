@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,12 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-308y_y8+vnik@1cu@!v_5udb1r65lvxzs)j0-g!@8w0t*nih(g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('VERCEL') != '1'
 
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'influential-elina-nonforensically.ngrok-free.dev'
+    'influential-elina-nonforensically.ngrok-free.dev',
+    '.vercel.app',
     ]
 
 
@@ -125,6 +127,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_DIRS = []
 # Default primary key field type
@@ -136,4 +139,5 @@ LOGIN_REDIRECT_URL = '/painel/'
 LOGOUT_REDIRECT_URL = '/login/'
 CSRF_TRUSTED_ORIGINS = [
     "https://influential-elina-nonforensically.ngrok-free.dev",
+    "https://*.vercel.app",
 ]
