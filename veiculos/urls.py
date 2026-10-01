@@ -1,8 +1,9 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
-from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
+from django.views.static import serve
+from core.views import page_not_found
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -15,5 +16,15 @@ urlpatterns = [
     path('vendas/', include('vendas.urls')),
 ]
 
+handler404 = 'core.views.page_not_found'
+
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += [
+        re_path(r'^veiculos/imagens/(?P<path>.*)$', serve, {
+            'document_root': settings.BASE_DIR / 'veiculos' / 'imagens',
+        }),
+        re_path(r'^uploads/veiculos/(?P<path>.*)$', serve, {
+            'document_root': settings.BASE_DIR / 'uploads' / 'veiculos',
+        }),
+    ]
+    urlpatterns += [re_path(r'^(?P<unmatched_path>.*)$', page_not_found)]

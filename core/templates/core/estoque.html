@@ -1,0 +1,121 @@
+{% load static monetario %}
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Estoque de veículos | Cesar Veículos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg:#fdfcf8;--bg-alt:#f2efe6;--surface:#fff;--border:#e5e1d3;--ink:#17171a;--ink-dim:#63656a;--red:#e2262c;--red-dark:#9c161b;--dark:#141416;--font-display:'Archivo Black',sans-serif;--font-body:'Barlow',sans-serif;--font-mono:'Space Mono',monospace}
+        *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--font-body)}a{color:inherit;text-decoration:none}img{display:block;max-width:100%}.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+        .site-header{position:sticky;top:0;z-index:20;background:rgba(253,252,248,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}.nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}.logo{display:flex;flex-direction:column;font:20px/.95 var(--font-display);letter-spacing:.4px}.logo .red{color:var(--red)}.tag{font:9px var(--font-mono);color:var(--ink-dim);letter-spacing:1.6px;margin-top:5px}.links{display:flex;align-items:center;gap:26px}.links a{color:var(--ink-dim);font-size:13px;font-weight:700}.links a:hover,.links a.active{color:var(--red)}.header-cta{background:var(--red);color:#fff;padding:11px 16px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;border-radius:3px}.header-cta:hover{background:var(--red-dark)}
+        .hero{background:var(--dark);color:#fff;padding:48px 0}.hero h1{font:clamp(30px,4vw,44px)/1.08 var(--font-display);margin:0}.hero p{color:#d3d0ca;font-size:16px;margin:12px 0 0}.hero .eyebrow{font:11px var(--font-mono);letter-spacing:2px;text-transform:uppercase;color:#ff7771;margin-bottom:11px}
+        main{padding:32px 0 80px}.layout{display:grid;grid-template-columns:285px minmax(0,1fr);gap:28px;align-items:start}.filters{background:#fff;border:1px solid var(--border);border-radius:6px;padding:21px;position:sticky;top:98px}.filters-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:17px}.filters-head h2{font:17px var(--font-display);margin:0}.clear{font-size:12px;color:var(--red);font-weight:700}.filter-group{margin-top:16px}.filter-group label,.filter-label{display:block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px;color:#45464a}.control{width:100%;border:1px solid #d8d4ca;border-radius:3px;padding:10px 11px;font:14px var(--font-body);color:var(--ink);background:#fff}.control:focus{outline:2px solid rgba(226,38,44,.16);border-color:var(--red)}.two-fields{display:grid;grid-template-columns:1fr 1fr;gap:9px}.filter-hint{font-size:11px;color:var(--ink-dim);margin-top:6px}.filter-submit{width:100%;border:0;border-radius:3px;padding:12px;background:var(--red);color:#fff;font:800 12px var(--font-body);letter-spacing:.7px;text-transform:uppercase;margin-top:20px;cursor:pointer}.filter-submit:hover{background:var(--red-dark)}
+        .results-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:18px}.results-head h2{font:25px var(--font-display);margin:0}.results-count{font-size:13px;color:var(--ink-dim);margin-top:4px}.sort{min-width:180px}.sort label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--ink-dim);font-weight:800;margin-bottom:5px}.grid-cars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.car-card{background:var(--surface);border:1px solid var(--border);border-radius:5px;overflow:hidden;transition:transform .2s,border-color .2s,box-shadow .2s}.car-card:hover{transform:translateY(-4px);border-color:var(--red);box-shadow:0 14px 30px rgba(20,20,22,.1)}.car-photo{display:block;height:180px;position:relative;background:var(--bg-alt);overflow:hidden}.car-photo img{width:100%;height:100%;object-fit:cover;transition:transform .35s}.car-card:hover .car-photo img{transform:scale(1.04)}.badge{position:absolute;top:10px;left:10px;background:var(--red);color:white;padding:5px 8px;font:10px var(--font-mono);text-transform:uppercase;border-radius:2px}.vehicle-info{display:flex!important;flex-direction:column;min-height:178px;padding:17px;background:#fff!important;color:var(--ink)!important}.vehicle-title{display:block!important;visibility:visible!important;font:17px/1.25 var(--font-display)!important;color:var(--ink)!important;margin:0 0 6px!important}.vehicle-year{display:block!important;color:var(--ink-dim)!important;font:13px var(--font-body)!important;margin:0 0 13px!important}.vehicle-specs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:15px}.vehicle-specs span{font:10px var(--font-mono);border:1px solid var(--border);padding:4px 6px;color:var(--ink-dim);border-radius:2px}.vehicle-info-bottom{display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--border);padding-top:12px;margin-top:auto}.vehicle-price{display:inline-block;background:var(--ink)!important;color:#fff!important;border-radius:3px;padding:7px 9px;font:700 13px var(--font-mono)!important;white-space:nowrap}.vehicle-detail-link{display:inline-block!important;color:var(--red)!important;font-size:11px;font-weight:800;text-transform:uppercase;white-space:nowrap}.vehicle-detail-link:hover{text-decoration:underline}.year{font-size:12px;color:var(--ink-dim);margin-bottom:13px}.specs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:15px}.specs span{font:10px var(--font-mono);border:1px solid var(--border);padding:4px 6px;color:var(--ink-dim);border-radius:2px}.car-bottom{display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--border);padding-top:12px}.price{background:var(--ink);color:#fff;border-radius:3px;padding:6px 8px;font:700 12px var(--font-mono);white-space:nowrap}.detail-link{font-size:11px;font-weight:800;text-transform:uppercase;color:var(--red);white-space:nowrap}.detail-link:hover{text-decoration:underline}.empty{grid-column:1/-1;border:1px dashed var(--border);border-radius:5px;padding:50px 20px;text-align:center;color:var(--ink-dim);background:rgba(255,255,255,.55)}.empty h3{font:20px var(--font-display);color:var(--ink);margin:0 0 8px}.empty p{margin:0 0 18px}.invalid-filter{padding:11px 14px;border-left:3px solid var(--red);background:#fff0ef;color:#84302c;font-size:13px;margin-bottom:16px}
+        footer{background:var(--dark);color:rgba(253,252,248,.65);padding:30px 0;font-size:13px}.footer-row{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}.footer-row a{color:white}.footer-row a:hover{color:#ff7771}
+        @media(max-width:1080px){.grid-cars{grid-template-columns:repeat(2,minmax(0,1fr))}.links{gap:14px}.links a{font-size:12px}}
+        @media(max-width:760px){.nav{min-height:68px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}.links{order:3;width:100%;overflow:auto;justify-content:flex-start;padding:3px 0 5px}.links a{white-space:nowrap}.header-cta{margin-left:auto}.layout{grid-template-columns:1fr}.filters{position:static}.results-head{align-items:flex-start;flex-direction:column}.sort{width:100%}.hero{padding:36px 0}}
+        @media(max-width:520px){.wrap{padding-left:16px;padding-right:16px}.grid-cars{grid-template-columns:1fr}.car-photo{height:215px}.two-fields{gap:7px}.hero h1{font-size:31px}}
+        /* Keep the store navigation visually identical to the homepage. */
+        .site-header{position:sticky;top:0;z-index:100;background:rgba(253,252,248,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+        .site-header .nav{min-height:0;display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:24px;padding:18px 24px}
+        .site-header .logo{font:22px/.95 var(--font-display);letter-spacing:.5px;display:flex;flex-direction:column;white-space:nowrap}
+        .site-header .logo .cesar{color:var(--ink)}
+        .site-header .logo .veiculos{color:var(--red)}
+        .site-header .logo .tag{font:400 9px var(--font-mono);color:var(--ink-dim);letter-spacing:2px;margin-top:4px}
+        .site-header nav.links{display:flex;align-items:center;justify-content:flex-start;gap:32px;width:auto;order:initial;overflow:visible;padding:0}
+        .site-header nav.links a{position:relative;color:var(--ink-dim);font:600 14px var(--font-body);text-transform:uppercase;letter-spacing:.6px;white-space:nowrap;transition:color .2s}
+        .site-header nav.links a:hover{color:var(--ink)}
+        .site-header nav.links a::after{content:'';position:absolute;left:0;bottom:-6px;height:2px;width:0;background:var(--red);transition:width .2s}
+        .site-header nav.links a:hover::after{width:100%}
+        .site-header .cta-btn{display:inline-block;background:var(--red);color:#fff;border:1px solid var(--red);border-radius:2px;padding:12px 22px;font:700 13px var(--font-body);text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;transition:background .2s,transform .15s}
+        .site-header .cta-btn:hover{background:var(--red-dark);border-color:var(--red-dark);transform:translateY(-1px)}
+        .site-header .burger{display:none;background:none;border:0;color:var(--ink);font:26px var(--font-body);cursor:pointer}
+        @media(max-width:920px){.site-header nav.links{display:none}.site-header .burger{display:block}}
+        @media(max-width:600px){.site-header .nav{padding:18px 16px}}
+    </style>
+</head>
+<body>
+<header class="site-header"><div class="wrap nav">
+    <a href="{% url 'home' %}#top" class="logo"><span class="cesar">CESAR<span class="veiculos"> VEÍCULOS</span></span><span class="tag">VENDA · TROCA · COMPRA · FINANCIO</span></a>
+    <nav class="links">
+        <a href="{% url 'estoque' %}">Estoque</a>
+        <a href="{% url 'enviar_veiculo' %}">Venda seu veículo</a>
+        <a href="{% url 'financie' %}">Financie</a>
+        <a href="{% url 'home' %}#localizacao">Localização</a>
+    </nav>
+    <div style="display:flex;gap:10px;align-items:center">
+        <a class="cta-btn" href="https://wa.me/5514998138869">Falar no WhatsApp</a>
+        <button class="burger" aria-label="Abrir menu">☰</button>
+    </div>
+</div></header>
+<section class="hero"><div class="wrap"><div class="eyebrow">Estoque completo</div><h1>Encontre seu próximo carro</h1><p>Use os filtros para encontrar o veículo que combina com você.</p></div></section>
+<main class="wrap" id="lista">
+    <div class="layout">
+        <aside>
+            <form class="filters" method="get" action="{% url 'estoque' %}#lista">
+                <div class="filters-head"><h2>Filtrar veículos</h2>{% if request.GET %}<a class="clear" href="{% url 'estoque' %}">Limpar</a>{% endif %}</div>
+                <div class="filter-group"><label for="q">Marca ou modelo</label><input class="control" id="q" name="q" type="search" value="{{ request.GET.q }}" placeholder="Ex.: Honda Civic"></div>
+                <div class="filter-group"><label for="marca">Marca</label><select class="control" id="marca" name="marca"><option value="">Todas as marcas</option>{% for item in marcas %}<option value="{{ item }}" {% if request.GET.marca == item %}selected{% endif %}>{{ item }}</option>{% endfor %}</select></div>
+                <div class="filter-group"><span class="filter-label">Ano</span><div class="two-fields"><input class="control" type="number" name="ano_de" min="1900" max="2100" value="{{ request.GET.ano_de }}" placeholder="De"><input class="control" type="number" name="ano_ate" min="1900" max="2100" value="{{ request.GET.ano_ate }}" placeholder="Até"></div></div>
+                <div class="filter-group"><span class="filter-label">Preço</span><div class="two-fields"><input class="control" type="text" name="preco_de" inputmode="decimal" value="{{ request.GET.preco_de }}" placeholder="Mínimo"><input class="control" type="text" name="preco_ate" inputmode="decimal" value="{{ request.GET.preco_ate }}" placeholder="Máximo"></div><div class="filter-hint">Informe, por exemplo, 30.000 ou 30.000,00.</div></div>
+                <div class="filter-group"><span class="filter-label">Quilometragem</span><div class="two-fields"><input class="control" type="number" name="km_de" min="0" value="{{ request.GET.km_de }}" placeholder="De (km)"><input class="control" type="number" name="km_ate" min="0" value="{{ request.GET.km_ate }}" placeholder="Até (km)"></div></div>
+                <div class="filter-group"><label for="cor">Cor</label><select class="control" id="cor" name="cor"><option value="">Todas as cores</option>{% for item in cores %}<option value="{{ item }}" {% if request.GET.cor == item %}selected{% endif %}>{{ item }}</option>{% endfor %}</select></div>
+                <div class="filter-group"><label for="cambio">Câmbio</label><select class="control" id="cambio" name="cambio"><option value="">Todos</option>{% for item in cambios %}<option value="{{ item }}" {% if request.GET.cambio == item %}selected{% endif %}>{{ item }}</option>{% endfor %}</select></div>
+                <div class="filter-group"><label for="combustivel">Combustível</label><select class="control" id="combustivel" name="combustivel"><option value="">Todos</option>{% for codigo, nome in combustiveis %}<option value="{{ codigo }}" {% if request.GET.combustivel == codigo %}selected{% endif %}>{{ nome }}</option>{% endfor %}</select></div>
+                <button type="submit" class="filter-submit">Aplicar filtros</button>
+            </form>
+        </aside>
+        <section>
+            <div class="results-head"><div><h2>Todos os veículos</h2><div class="results-count">{{ total_veiculos }} veículo{{ total_veiculos|pluralize:"s" }} encontrado{{ total_veiculos|pluralize:"s" }}</div></div>
+                <form method="get" action="{% url 'estoque' %}#lista" class="sort"><label for="ordenar">Ordenar por</label>{% for key, value in request.GET.items %}{% if key != 'ordenar' %}<input type="hidden" name="{{ key }}" value="{{ value }}">{% endif %}{% endfor %}<select class="control" name="ordenar" id="ordenar" onchange="this.form.submit()"><option value="recentes" {% if request.GET.ordenar == 'recentes' or not request.GET.ordenar %}selected{% endif %}>Ano mais recente</option><option value="ano_antigo" {% if request.GET.ordenar == 'ano_antigo' %}selected{% endif %}>Ano mais antigo</option><option value="preco_menor" {% if request.GET.ordenar == 'preco_menor' %}selected{% endif %}>Menor preço</option><option value="preco_maior" {% if request.GET.ordenar == 'preco_maior' %}selected{% endif %}>Maior preço</option></select></form>
+            </div>
+            {% if filtro_preco_invalido %}<div class="invalid-filter">Não reconheci um dos valores de preço informados. Use números como 30.000 ou 30.000,00.</div>{% endif %}
+            <div class="grid-cars">
+                {% for veiculo in veiculos %}
+                <article class="car-card">
+                    <a href="{% url 'veiculo_detalhe' veiculo.pk %}" class="car-photo">
+                        {% if veiculo.quilometragem < 20000 %}<span class="badge">Baixa km</span>{% endif %}
+                        {% if veiculo.imagem %}
+                            <img src="{{ veiculo.imagem.url }}" alt="{{ veiculo.marca }} {{ veiculo.modelo }}">
+                        {% elif veiculo.imagens_adicionais.all %}
+                            <img src="{{ veiculo.imagens_adicionais.first.imagem.url }}" alt="{{ veiculo.marca }} {{ veiculo.modelo }}">
+                        {% else %}
+                            <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=700&q=80" alt="Foto indisponível">
+                        {% endif %}
+                    </a>
+                    <div class="vehicle-info">
+                        <h3 class="vehicle-title">{{ veiculo.marca }} {{ veiculo.modelo }}</h3>
+                        <p class="vehicle-year">Ano {{ veiculo.ano }}{% if veiculo.cor %} · {{ veiculo.cor }}{% endif %}</p>
+                        <div class="vehicle-specs"><span>{{ veiculo.quilometragem }} km</span>{% if veiculo.cambio %}<span>{{ veiculo.cambio }}</span>{% endif %}<span>{{ veiculo.get_tipo_combustivel_display }}</span></div>
+                        <div class="vehicle-info-bottom"><strong class="vehicle-price">{{ veiculo.preco|brl }}</strong><a class="vehicle-detail-link" href="{% url 'veiculo_detalhe' veiculo.pk %}">Ver detalhes</a></div>
+                    </div>
+                </article>
+                {% empty %}<div class="empty"><h3>Nenhum veículo encontrado</h3><p>Tente remover algum filtro ou fazer uma nova busca.</p><a class="header-cta" href="{% url 'estoque' %}">Limpar filtros</a></div>{% endfor %}
+            </div>
+        </section>
+    </div>
+</main>
+<footer><div class="wrap footer-row"><span>© 2026 Cesar Veículos · Ourinhos, SP</span><span><a href="{% url 'enviar_veiculo' %}">Venda seu veículo</a> · <a href="{% url 'home' %}#contato">Fale com a loja</a></span><span>Desenvolvido por P2T Digital</span></div></footer>
+<script>
+    document.querySelector('.burger').addEventListener('click', function(){
+        const links = document.querySelector('nav.links');
+        const open = links.style.display === 'flex';
+        links.style.display = open ? 'none' : 'flex';
+        links.style.flexDirection = 'column';
+        links.style.position = 'absolute';
+        links.style.top = '100%';
+        links.style.left = '0';
+        links.style.right = '0';
+        links.style.background = '#fdfcf8';
+        links.style.padding = '20px 24px';
+        links.style.borderBottom = '1px solid #e5e1d3';
+        links.style.boxShadow = '0 12px 24px rgba(20,20,22,0.08)';
+        links.style.gap = '18px';
+    });
+</script>
+</body>
+</html>

@@ -1,78 +1,85 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>Venda seu carro</title>
-
-    <!-- Tailwind CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-
-    <!-- Meta mobile -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Venda seu veículo | Cesar Veículos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg:#fdfcf8;--surface:#fff;--line:#e5e1d3;--ink:#17171a;--muted:#63656a;--red:#e2262c;--red-dark:#9c161b;--font-display:'Archivo Black',sans-serif;--font-body:'Barlow',sans-serif;--font-mono:'Space Mono',monospace}
+        *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--font-body)}a{color:inherit;text-decoration:none}
+        .site-header{position:sticky;top:0;z-index:100;border-bottom:1px solid var(--line);background:rgba(253,252,248,.92);backdrop-filter:blur(8px)}.wrap{max-width:1200px;margin:auto;padding:0 24px}.nav{height:auto;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 24px}
+        .logo{font:22px/.95 var(--font-display);letter-spacing:.5px;display:flex;flex-direction:column;white-space:nowrap}.logo .cesar{color:var(--ink)}.logo .veiculos{color:var(--red)}.logo .tag{font:400 9px var(--font-mono);color:var(--muted);letter-spacing:2px;margin-top:4px}
+        nav.links{display:flex;align-items:center;gap:28px}nav.links a{color:var(--muted);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;position:relative;white-space:nowrap}nav.links a:hover{color:var(--ink)}nav.links a::after{content:'';position:absolute;left:0;bottom:-6px;height:2px;width:0;background:var(--red);transition:width .2s}nav.links a:hover::after{width:100%}
+        .header-actions{display:flex;align-items:center;gap:10px}.header-cta{display:inline-block;background:var(--red);color:#fff;padding:12px 20px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;border:1px solid var(--red);border-radius:2px;white-space:nowrap}.header-cta:hover{background:var(--red-dark)}.burger{display:none;background:none;border:0;color:var(--ink);font:26px var(--font-body);cursor:pointer}
+        main{padding:54px 0 76px}.intro{text-align:center;max-width:700px;margin:0 auto 34px}.eyebrow{font:11px var(--font-mono);letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:10px}.intro h1{font:clamp(30px,5vw,44px)/1.07 var(--font-display);margin:0 0 14px;letter-spacing:-.4px}.intro p{color:var(--muted);font-size:17px;margin:0}
+        .form-card{max-width:800px;margin:auto;background:var(--surface);border:1px solid var(--line);border-radius:8px;box-shadow:0 18px 50px rgba(20,20,22,.07);overflow:hidden}.card-head{padding:22px 28px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:13px}.icon{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#fff0ef;color:var(--red);font-size:19px}.card-head h2{font:18px var(--font-display);margin:0}.card-head p{font-size:13px;color:var(--muted);margin:4px 0 0}.card-body{padding:28px}
+        .fields{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}.field.full{grid-column:1/-1}.field label{display:block;font-size:12px;font-weight:700;color:#343c48;margin-bottom:7px}.field input:not([type=file]),.field select,.field textarea{width:100%;border:1px solid #d7d3c8;border-radius:4px;padding:11px 12px;font:15px var(--font-body);background:white;color:var(--ink)}.field textarea{min-height:100px;resize:vertical}.field input:focus,.field textarea:focus{outline:2px solid rgba(226,38,44,.18);border-color:var(--red)}.field input[type=file]{width:100%;font:13px var(--font-body);border:1px dashed #c9c4b8;background:#fcfbf7;padding:15px;border-radius:4px}.help{font-size:12px;color:var(--muted);margin-top:6px}.errorlist{list-style:none;color:#b42318;font-size:12px;margin:5px 0 0;padding:0}
+        .privacy{font-size:12px;color:var(--muted);margin:18px 0 22px}.submit{width:100%;border:0;border-radius:4px;background:var(--red);color:#fff;padding:14px 18px;font:700 14px var(--font-body);letter-spacing:.6px;text-transform:uppercase;cursor:pointer}.submit:hover{background:var(--red-dark)}
+        .credit-footer{text-align:center;color:var(--muted);font-size:11px;padding:0 16px 22px}
+        @media(max-width:920px){nav.links{display:none}.burger{display:block}}
+        @media(max-width:600px){.site-header .nav{padding:16px}.site-header .logo{font-size:19px}.site-header .logo .tag{font-size:8px;letter-spacing:1px}.header-cta{font-size:10px;padding:10px 12px}.wrap{padding:0 17px}main{padding:36px 0 50px}.fields{grid-template-columns:1fr}.field.full{grid-column:auto}.card-head,.card-body{padding:20px}.intro p{font-size:15px}}
+    </style>
 </head>
-<body class="bg-gray-100">
-
-<div class="min-h-screen flex items-center justify-center py-10 px-4">
-    <div class="w-full max-w-2xl bg-white rounded-2xl shadow-xl p-8">
-
-        <!-- Header -->
-        <div class="text-center mb-8">
-            <div class="mx-auto w-16 h-16 flex items-center justify-center bg-orange-100 rounded-full mb-4">
-                <i class="fas fa-car text-orange-500 text-2xl"></i>
-            </div>
-            <h2 class="text-2xl font-bold text-gray-800">Venda seu veículo</h2>
-            <p class="text-gray-500 mt-1">
-                Envie os dados do seu carro e receba uma proposta 💰
-            </p>
-        </div>
-
-        <form method="POST" enctype="multipart/form-data" class="space-y-6">
-            {% csrf_token %}
-
-            <!-- Dados -->
-            <div class="bg-gray-50 p-4 rounded-xl border">
-                <h3 class="text-lg font-semibold text-gray-700 mb-3">
-                    <i class="fas fa-info-circle mr-2 text-orange-500"></i> Informações do veículo
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {{ form_lead }}
+<body>
+<header class="site-header"><div class="wrap nav">
+    <a href="{% url 'home' %}#top" class="logo"><span class="cesar">CESAR<span class="veiculos"> VEÍCULOS</span></span><span class="tag">VENDA · TROCA · COMPRA · FINANCIO</span></a>
+    <nav class="links">
+        <a href="{% url 'estoque' %}">Estoque</a>
+        <a href="{% url 'enviar_veiculo' %}">Venda seu veículo</a>
+        <a href="{% url 'financie' %}">Financie</a>
+        <a href="{% url 'home' %}#localizacao">Localização</a>
+    </nav>
+    <div class="header-actions"><a class="header-cta" href="https://wa.me/5514998138869">Falar no WhatsApp</a><button class="burger" aria-label="Abrir menu">☰</button></div>
+</div></header>
+<main class="wrap">
+    <section class="intro"><div class="eyebrow">Compra de veículos</div><h1>Venda seu veículo para a Cesar</h1><p>Envie as informações e fotos do seu carro. Nossa equipe vai analisar os dados e entrar em contato para conversar sobre uma possível compra.</p></section>
+    <section class="form-card">
+        <div class="card-head"><span class="icon" aria-hidden="true">↗</span><div><h2>Dados do veículo e contato</h2><p>Preencha os campos para solicitar uma avaliação.</p></div></div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if form_lead.non_field_errors %}{{ form_lead.non_field_errors }}{% endif %}
+                <div class="fields">
+                    {% for field in form_lead %}
+                    <div class="field {% if field.name == 'observacoes' %}full{% endif %}">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+                        {{ field }}
+                        {% if field.help_text %}<div class="help">{{ field.help_text }}</div>{% endif %}
+                        {{ field.errors }}
+                    </div>
+                    {% endfor %}
+                    <div class="field full">
+                        <label for="id_imagens">Fotos do veículo (opcional)</label>
+                        <input id="id_imagens" type="file" name="imagens" multiple accept="image/*">
+                        <div class="help">Se possível, envie fotos externas, internas, do painel e do motor.</div>
+                    </div>
                 </div>
-            </div>
-
-            <!-- Imagens -->
-            <div class="bg-gray-50 p-4 rounded-xl border">
-                <h3 class="text-lg font-semibold text-gray-700 mb-3">
-                    <i class="fas fa-camera mr-2 text-orange-500"></i> Fotos do veículo
-                </h3>
-
-                <div class="grid grid-cols-1 gap-3">
-                    {{ form_imagens }}
-                </div>
-
-                <p class="text-xs text-gray-500 mt-2">
-                    📸 Envie fotos externas, internas, painel, motor e documento (opcional)
-                </p>
-            </div>
-
-            <!-- Botão -->
-            <button type="submit"
-                class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl transition duration-300 flex items-center justify-center gap-2 shadow-lg">
-                <i class="fas fa-paper-plane"></i>
-                Enviar veículo para avaliação
-            </button>
-
-        </form>
-
-        <div class="text-center text-xs text-gray-400 mt-6">
-            Seus dados estão protegidos 🔒 Não compartilhamos suas informações.
+                <p class="privacy">Ao enviar, você solicita que a equipe avalie seu veículo e entre em contato. O envio não garante a compra.</p>
+                <button type="submit" class="submit">Enviar para avaliação</button>
+            </form>
         </div>
-
-    </div>
-</div>
-
+    </section>
+</main>
+<footer class="credit-footer">Desenvolvido por P2T Digital</footer>
+<script>
+    document.querySelector('.burger').addEventListener('click', function(){
+        const links = document.querySelector('nav.links');
+        const open = links.style.display === 'flex';
+        links.style.display = open ? 'none' : 'flex';
+        links.style.flexDirection = 'column';
+        links.style.position = 'absolute';
+        links.style.top = '100%';
+        links.style.left = '0';
+        links.style.right = '0';
+        links.style.background = '#fdfcf8';
+        links.style.padding = '20px 24px';
+        links.style.borderBottom = '1px solid #e5e1d3';
+        links.style.boxShadow = '0 12px 24px rgba(20,20,22,0.08)';
+        links.style.gap = '18px';
+    });
+</script>
 </body>
 </html>

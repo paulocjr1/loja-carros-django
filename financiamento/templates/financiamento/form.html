@@ -28,6 +28,7 @@
         .form-check-label {
             margin-left: 8px;
         }
+        .credit-footer { color: #778397; font-size: 11px; text-align: center; padding: 20px 12px; }
     </style>
 </head>
 <body>
@@ -40,8 +41,8 @@
             </div>
             <nav class="hidden md:flex space-x-8">
                 <a href="{% url 'home' %}" class="text-white hover:text-red-500 font-medium">Home</a>
-                <a href="{% url 'home' %}#catalogo" class="text-white hover:text-red-500 font-medium">Catálogo</a>
-                <a href="{% url 'home' %}#contato" class="text-white hover:text-red-500 font-medium">Contato</a>
+                <a href="{% url 'estoque' %}" class="text-white hover:text-red-500 font-medium">Estoque</a>
+                <a href="{% url 'enviar_veiculo' %}" class="text-white hover:text-red-500 font-medium">Venda seu veículo</a>
             </nav>
             <div class="flex items-center space-x-4">
                 <a href="{% url 'home' %}" class="text-red-500 hover:text-orange-600">
@@ -93,6 +94,6 @@
         </button>
     </form>
 </div>
-
+<footer class="credit-footer">Desenvolvido por P2T Digital</footer>
 </body>
 </html>

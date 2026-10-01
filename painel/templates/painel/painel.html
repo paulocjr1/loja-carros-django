@@ -1,144 +1,23 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Painel de Veículos</title>
-
-    <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- FontAwesome (ícones) -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
-    <style>
-        body {
-            background-color: #f4f6f9;
-        }
-        .sidebar {
-            min-height: 100vh;
-            background: #0d6efd;
-            color: white;
-        }
-        .sidebar a {
-            color: white;
-            text-decoration: none;
-        }
-        .sidebar a:hover {
-            background: rgba(255,255,255,0.15);
-        }
-        .card {
-            border-radius: 12px;
-        }
-    </style>
-</head>
-
-<body>
-
-<div class="container-fluid">
-    <div class="row">
-
-        <!-- Sidebar -->
-        <div class="col-md-3 col-lg-2 sidebar p-3">
-            <h4 class="fw-bold mb-4 text-center">
-                🚗 Painel Admin
-            </h4>
-
-            <ul class="nav flex-column gap-2">
-                <li class="nav-item">
-                    <a class="nav-link rounded px-3 py-2 flex items-center gap-2" href="{% url 'painel' %}">
-                        <i class="fas fa-car"></i> Veículos
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link rounded px-3 py-2 flex items-center gap-2 text-purple-600 hover:bg-purple-100" 
-                    href="{% url 'lista_leads' %}">
-                        <i class="fas fa-file-alt"></i> Leads de Financiamento
-                    </a>
-                </li>
-
-            <li class="nav-item">
-                    <li class="nav-item">
-                    <a class="nav-link rounded px-3 py-2 d-flex align-items-center gap-2" href="{% url 'lead_vendas' %}">
-                        <i class="fas fa-money-bill-wave"></i> Leads de Carros Oferecidos
-                    </a>
-                </li>
-
-                <li class="nav-item mt-3">
-                    <a class="nav-link rounded px-3 py-2 text-white bg-danger" href="{% url 'logout' %}">
-                        <i class="fas fa-sign-out-alt me-2"></i> Sair
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <!-- Main Content -->
-        <div class="col-md-9 col-lg-10 p-4">
-
-            <!-- Header -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="fw-bold">Painel de Veículos</h2>
-
-                <a href="{% url 'criar_veiculo' %}" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Novo veículo
-                </a>
-            </div>
-
-            <!-- Table Card -->
-            <div class="card shadow-sm">
-                <div class="card-body">
-
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Marca</th>
-                                    <th>Modelo</th>
-                                    <th>Ano</th>
-                                    <th class="text-end">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                {% for v in veiculos %}
-                                <tr>
-                                    <td>{{ v.id }}</td>
-                                    <td>{{ v.marca }}</td>
-                                    <td>{{ v.modelo }}</td>
-                                    <td>{{ v.ano }}</td>
-                                    <td class="text-end">
-
-                                        <a href="{% url 'editar_veiculo' v.id %}" class="btn btn-sm btn-warning">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-
-                                        <a href="{% url 'deletar_veiculo' v.id %}" 
-                                           class="btn btn-sm btn-danger"
-                                           onclick="return confirm('Tem certeza que deseja deletar este veículo?')">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-
-                                    </td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="5" class="text-center text-muted py-4">
-                                        Nenhum veículo cadastrado.
-                                    </td>
-                                </tr>
-                                {% endfor %}
-
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-    </div>
+{% extends 'painel/base.html' %}
+{% load monetario %}
+{% block title %}Veículos | Painel Cesar Veículos{% endblock %}
+{% block page_title %}Estoque de veículos{% endblock %}
+{% block page_subtitle %}Cadastre, atualize e organize os veículos anunciados na loja.{% endblock %}
+{% block header_actions %}<a href="{% url 'criar_veiculo' %}" class="btn btn-primary px-3 py-2"><i class="fa-solid fa-plus me-2"></i>Novo veículo</a>{% endblock %}
+{% block content %}
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-xl-4"><div class="stat-card"><div class="stat-top"><span>Veículos cadastrados</span><span class="stat-icon"><i class="fa-solid fa-car-side"></i></span></div><div class="stat-number">{{ veiculos.count }}</div><div class="stat-note">Itens no estoque do site</div></div></div>
+    <div class="col-sm-6 col-xl-4"><div class="stat-card"><div class="stat-top"><span>Ações rápidas</span><span class="stat-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span></div><div class="stat-number" style="font-size:19px">Gerencie seu estoque</div><div class="stat-note">Edite anúncios ou adicione novos veículos</div></div></div>
 </div>
-
-</body>
-</html>
+<section class="card-panel">
+    <div class="card-panel-head"><h2><i class="fa-solid fa-list me-2 text-danger"></i>Veículos cadastrados</h2><span class="badge-soft">{{ veiculos.count }} no estoque</span></div>
+    <div class="table-responsive"><table class="table table-hover">
+        <thead><tr><th>Veículo</th><th>Ano</th><th>Preço</th><th class="text-end">Ações</th></tr></thead>
+        <tbody>{% for v in veiculos %}<tr>
+            <td><div class="d-flex align-items-center gap-3">{% if v.imagem %}<img src="{{ v.imagem.url }}" class="vehicle-thumb" alt="">{% else %}<span class="vehicle-thumb d-grid place-items-center text-secondary" style="display:grid;place-items:center"><i class="fa-solid fa-car"></i></span>{% endif %}<div><div class="entity-name">{{ v.marca }} {{ v.modelo }}</div><div class="entity-meta">ID #{{ v.id }} · {{ v.cor|default:'Cor não informada' }}</div></div></div></td>
+            <td><span class="badge-soft">{{ v.ano }}</span></td><td class="fw-semibold">{{ v.preco|brl }}</td>
+            <td class="text-end"><div class="d-inline-flex gap-2"><a href="{% url 'editar_veiculo' v.id %}" class="btn-icon" title="Editar"><i class="fa-solid fa-pen"></i></a><a href="{% url 'deletar_veiculo' v.id %}" class="btn-icon danger" title="Excluir" onclick="return confirm('Tem certeza que deseja excluir este veículo?')"><i class="fa-regular fa-trash-can"></i></a></div></td>
+        </tr>{% empty %}<tr><td colspan="4"><div class="empty-state"><i class="fa-solid fa-car d-block"></i><strong>Nenhum veículo cadastrado</strong>Adicione o primeiro veículo para começar a montar seu estoque.</div></td></tr>{% endfor %}</tbody>
+    </table></div>
+</section>
+{% endblock %}

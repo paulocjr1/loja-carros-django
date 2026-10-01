@@ -5,20 +5,19 @@ from .models import ImagemVenda
 def enviar_veiculo(request):
     if request.method == 'POST':
         form_lead = LeadVendaForm(request.POST)
+        form_imagens = UploadImagensForm(request.POST, request.FILES)
         
-        # Aqui está o truque: validamos o formulário principal
+        # Validamos os dados do veículo e salvamos as fotos enviadas.
         if form_lead.is_valid():
             lead = form_lead.save()
 
-            # Em vez de validar o form_imagens, pegamos direto do request.FILES
-            imagens = request.FILES.getlist('imagens') # 'imagens' deve ser o name do campo no seu HTML
+            imagens = request.FILES.getlist('imagens')
             
             for img in imagens:
                 ImagemVenda.objects.create(lead=lead, imagem=img)
 
             return redirect('venda_sucesso')
-        else:
-            print(f"Erros do Lead: {form_lead.errors}") # Debug caso o erro seja no texto
+
     else:
         form_lead = LeadVendaForm()
         form_imagens = UploadImagensForm()

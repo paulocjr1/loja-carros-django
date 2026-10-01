@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página não encontrada — Cesar Veículos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#fdfcf8;--border:#e5e1d3;--ink:#17171a;--muted:#63656a;--red:#e2262c;--red-dark:#9c161b;--font-display:'Archivo Black',sans-serif;--font-body:'Barlow',sans-serif;--font-mono:'Space Mono',monospace}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font:16px/1.5 var(--font-body);display:flex;flex-direction:column}a{color:inherit;text-decoration:none}.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+    header{position:sticky;top:0;z-index:100;background:rgba(253,252,248,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 24px}.logo{font:22px/.95 var(--font-display);letter-spacing:.5px;display:flex;flex-direction:column;white-space:nowrap}.logo .cesar{color:var(--ink)}.logo .veiculos{color:var(--red)}.logo .tag{font:400 9px var(--font-mono);color:var(--muted);letter-spacing:2px;margin-top:4px}
+    nav.links{display:flex;align-items:center;gap:28px}nav.links a{color:var(--muted);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;position:relative;white-space:nowrap}nav.links a:hover{color:var(--ink)}nav.links a::after{content:'';position:absolute;left:0;bottom:-6px;height:2px;width:0;background:var(--red);transition:width .2s}nav.links a:hover::after{width:100%}.header-actions{display:flex;align-items:center;gap:10px}.cta{display:inline-block;padding:12px 20px;border:1px solid var(--red);border-radius:2px;background:var(--red);color:#fff;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}.cta:hover{background:var(--red-dark)}.burger{display:none;background:none;border:0;color:var(--ink);font:26px var(--font-body);cursor:pointer}
+    main{width:min(calc(100% - 32px),720px);margin:auto;text-align:center;padding:70px 24px}.error-code{font:clamp(76px,16vw,150px)/.95 var(--font-display);letter-spacing:-6px;color:var(--red)}.eyebrow{margin:20px 0 10px;color:var(--red);font:11px var(--font-mono);letter-spacing:2.5px;text-transform:uppercase}h1{font:clamp(28px,5vw,42px)/1.1 var(--font-display);margin:0 0 14px}main p{max-width:500px;margin:0 auto 28px;color:var(--muted);font-size:17px}.actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}.button{display:inline-block;padding:12px 20px;border:1px solid var(--red);border-radius:2px;background:var(--red);color:white;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}.button.secondary{background:transparent;color:var(--ink);border-color:var(--border)}.button:hover{filter:brightness(.94)}footer{text-align:center;padding:20px 16px;color:var(--muted);font-size:12px}
+    @media(max-width:920px){nav.links{display:none}.burger{display:block}}@media(max-width:600px){.nav{padding:16px}.logo{font-size:19px}.logo .tag{font-size:8px;letter-spacing:1px}.cta{font-size:10px;padding:10px 12px}.wrap{padding:0 16px}.error-code{letter-spacing:-3px}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="nav wrap">
+    <a href="{% url 'home' %}#top" class="logo"><span class="cesar">CESAR<span class="veiculos"> VEÍCULOS</span></span><span class="tag">VENDA · TROCA · COMPRA · FINANCIO</span></a>
+    <nav class="links">
+      <a href="{% url 'estoque' %}">Estoque</a>
+      <a href="{% url 'enviar_veiculo' %}">Venda seu veículo</a>
+      <a href="{% url 'financie' %}">Financie</a>
+      <a href="{% url 'home' %}#localizacao">Localização</a>
+    </nav>
+    <div class="header-actions"><a class="cta" href="https://wa.me/5514998138869">Falar no WhatsApp</a><button class="burger" aria-label="Abrir menu">☰</button></div>
+  </div>
+</header>
+<main>
+  <div class="error-code">404</div>
+  <div class="eyebrow">Página não encontrada</div>
+  <h1>Esse caminho não está no nosso mapa.</h1>
+  <p>O endereço pode ter mudado ou não existe. Você pode voltar ao início ou procurar seu próximo carro no estoque.</p>
+  <div class="actions"><a class="button" href="{% url 'home' %}">Ir para a página inicial</a><a class="button secondary" href="{% url 'estoque' %}">Ver estoque</a></div>
+</main>
+<footer>© 2026 Cesar Veículos · Ourinhos, SP</footer>
+<script>
+  document.querySelector('.burger').addEventListener('click',function(){
+    const links=document.querySelector('nav.links');
+    const open=links.style.display==='flex';
+    links.style.display=open?'none':'flex';
+    links.style.flexDirection='column';
+    links.style.position='absolute';
+    links.style.top='100%';
+    links.style.left='0';
+    links.style.right='0';
+    links.style.background='#fdfcf8';
+    links.style.padding='20px 24px';
+    links.style.borderBottom='1px solid #e5e1d3';
+    links.style.boxShadow='0 12px 24px rgba(20,20,22,0.08)';
+    links.style.gap='18px';
+  });
+</script>
+</body>
+</html>

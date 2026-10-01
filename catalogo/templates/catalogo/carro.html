@@ -1,426 +1,464 @@
-<SKIPPED_HTML_EDIT_MODE></SKIPPED_HTML_EDIT_MODE>
-
+{% load monetario %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{veiculo.marca}} {{veiculo.modelo}} {{veiculo.ano}} - Cesar Veiculos</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>{{ veiculo.marca }} {{ veiculo.modelo }} — Cesar Veículos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .gallery-main {
-            transition: all 0.3s ease;
+        :root{
+            --bg:#fdfcf8;
+            --bg-alt:#f2efe6;
+            --surface:#ffffff;
+            --border:#e5e1d3;
+            --ink:#17171a;
+            --ink-dim:#63656a;
+            --red:#e2262c;
+            --red-dark:#9c161b;
+            --dark:#141416;
+            --dark-2:#1c1c1f;
+            --plate-blue:#1b3a8a;
+            --font-display:'Archivo Black', sans-serif;
+            --font-body:'Barlow', sans-serif;
+            --font-mono:'Space Mono', monospace;
         }
-        .gallery-thumb {
-            cursor: pointer;
-            transition: all 0.3s ease;
+        *{margin:0;padding:0;box-sizing:border-box;}
+        html{scroll-behavior:smooth;}
+        body{
+            background:var(--bg);
+            color:var(--ink);
+            font-family:var(--font-body);
+            line-height:1.5;
+            overflow-x:hidden;
         }
-        .gallery-thumb:hover {
-            transform: scale(1.05);
+        a{color:inherit;text-decoration:none;}
+        img{display:block;max-width:100%;}
+        .wrap{max-width:1200px;margin:0 auto;padding:0 24px;}
+        :focus-visible{outline:3px solid var(--red);outline-offset:3px;}
+
+        /* ===== HEADER ===== */
+        header{
+            position:sticky;top:0;z-index:100;
+            background:rgba(253,252,248,0.92);
+            backdrop-filter:blur(8px);
+            border-bottom:1px solid var(--border);
         }
-        .gallery-thumb.active {
-            border-color: #f97316;
-            transform: scale(1.05);
+        .nav{
+            display:flex;align-items:center;justify-content:space-between;
+            padding:18px 24px;
         }
-        .specification-card:hover {
-            background-color: #f8fafc;
-            transform: translateY(-2px);
+        .logo{
+            font-family:var(--font-display);
+            font-size:22px;
+            letter-spacing:0.5px;
+            display:flex;flex-direction:column;line-height:0.95;
         }
+        .logo .cesar{color:var(--ink);}
+        .logo .veiculos{color:var(--red);}
+        .logo .tag{
+            font-family:var(--font-mono);
+            font-size:9px;
+            color:var(--ink-dim);
+            letter-spacing:2px;
+            margin-top:4px;
+            font-weight:400;
+        }
+        .cta-btn{
+            background:var(--red);color:#fff;
+            font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;
+            padding:12px 22px;border-radius:2px;
+            border:1px solid var(--red);
+            transition:background .2s, transform .15s;
+            white-space:nowrap;
+            display:inline-block;
+        }
+        .cta-btn:hover{background:var(--red-dark);border-color:var(--red-dark);transform:translateY(-1px);}
+        nav.links{display:flex;align-items:center;gap:28px;}
+        nav.links a{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-dim);position:relative;white-space:nowrap;}
+        nav.links a:hover{color:var(--ink);}
+        nav.links a::after{content:'';position:absolute;left:0;bottom:-6px;height:2px;width:0;background:var(--red);transition:width .2s;}
+        nav.links a:hover::after{width:100%;}
+        .burger{display:none;background:none;border:0;color:var(--ink);font:26px var(--font-body);cursor:pointer;}
+        @media(max-width:920px){nav.links{display:none}.burger{display:block}}
+        .cta-btn.disabled{
+            background:var(--ink-dim);border-color:var(--ink-dim);cursor:not-allowed;
+            pointer-events:none;
+        }
+
+        /* ===== BREADCRUMB ===== */
+        .breadcrumb{
+            padding:22px 0 0;
+            font-family:var(--font-mono);
+            font-size:12px;
+            letter-spacing:1px;
+            color:var(--ink-dim);
+        }
+        .breadcrumb a{color:var(--red);font-weight:700;}
+        .breadcrumb a:hover{text-decoration:underline;}
+
+        /* ===== DETAIL LAYOUT ===== */
+        .detalhe{
+            padding:32px 0 88px;
+        }
+        .detalhe-grid{
+            display:grid;
+            grid-template-columns:1.15fr 0.85fr;
+            gap:48px;
+            align-items:start;
+        }
+
+        /* ----- gallery ----- */
+        .galeria-principal{
+            position:relative;
+            border-radius:4px;
+            overflow:hidden;
+            border:1px solid var(--border);
+            background:var(--bg-alt);
+            box-shadow:0 20px 44px -20px rgba(20,20,22,0.22);
+        }
+        .galeria-principal img{
+            width:100%;
+            height:440px;
+            object-fit:cover;
+            transition:opacity .18s ease;
+        }
+        .galeria-badge{
+            position:absolute;top:16px;left:16px;
+            background:var(--red);color:#fff;font-size:11px;font-weight:700;
+            text-transform:uppercase;letter-spacing:1px;padding:6px 11px;border-radius:2px;
+            font-family:var(--font-mono);
+        }
+        .galeria-badge.vendido{
+            background:var(--dark);
+        }
+        .galeria-thumbs{
+            display:flex;
+            gap:10px;
+            margin-top:12px;
+            flex-wrap:wrap;
+        }
+        .galeria-thumbs img{
+            width:78px;
+            height:58px;
+            object-fit:cover;
+            border-radius:3px;
+            border:2px solid transparent;
+            cursor:pointer;
+            opacity:0.65;
+            transition:opacity .15s ease, border-color .15s ease;
+        }
+        .galeria-thumbs img:hover{opacity:1;}
+        .galeria-thumbs img.ativa{
+            opacity:1;
+            border-color:var(--red);
+        }
+
+        /* ----- info panel ----- */
+        .info-eyebrow{
+            font-family:var(--font-mono);font-size:12px;letter-spacing:3px;color:var(--red);
+            text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;
+        }
+        .info-eyebrow::before{content:'';width:26px;height:2px;background:var(--red);display:inline-block;}
+        .info h1{
+            font-family:var(--font-display);
+            font-size:clamp(28px,3.6vw,40px);
+            line-height:1.04;
+            letter-spacing:-0.5px;
+            margin-bottom:6px;
+            color:var(--ink);
+        }
+        .info .ano-cor{
+            color:var(--ink-dim);
+            font-size:15px;
+            margin-bottom:22px;
+        }
+
+        .plate-tag{
+            display:inline-flex;
+            flex-direction:column;
+            align-items:center;
+            background:#ffffff;color:var(--ink);
+            border-radius:4px;padding:10px 18px;
+            box-shadow:0 14px 30px rgba(20,20,22,0.16);
+            border:2px solid var(--ink);
+            margin-bottom:28px;
+        }
+        .plate-tag .plate-top{
+            font-family:var(--font-mono);font-size:9px;letter-spacing:2px;color:var(--plate-blue);font-weight:700;
+            border-bottom:1px solid #ccc;width:100%;text-align:center;padding-bottom:3px;margin-bottom:4px;
+        }
+        .plate-tag .plate-num{font-family:var(--font-mono);font-size:24px;font-weight:700;letter-spacing:1px;}
+
+        .specs-grid{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:12px;
+            margin-bottom:28px;
+        }
+        .spec-item{
+            border:1px solid var(--border);
+            border-radius:4px;
+            padding:14px 16px;
+            background:var(--surface);
+        }
+        .spec-item .rotulo{
+            font-family:var(--font-mono);
+            font-size:10px;
+            letter-spacing:1.5px;
+            text-transform:uppercase;
+            color:var(--ink-dim);
+            margin-bottom:5px;
+        }
+        .spec-item .valor{
+            font-weight:700;
+            font-size:15px;
+            color:var(--ink);
+        }
+
+        .info-actions{
+            display:flex;
+            gap:12px;
+            flex-wrap:wrap;
+            margin-bottom:32px;
+        }
+
+        .vendido-aviso{
+            border:1px solid var(--border);
+            background:var(--bg-alt);
+            border-left:3px solid var(--dark);
+            border-radius:4px;
+            padding:16px 18px;
+            font-size:14px;
+            color:var(--ink-dim);
+            margin-bottom:32px;
+        }
+
+        .descricao h2{
+            font-family:var(--font-display);
+            font-size:18px;
+            margin-bottom:12px;
+            letter-spacing:-0.2px;
+        }
+        .descricao p{
+            font-size:15px;
+            color:var(--ink-dim);
+            white-space:pre-line;
+        }
+
+        @media (max-width:920px){
+            .detalhe-grid{grid-template-columns:1fr;}
+            .galeria-principal img{height:320px;}
+        }
+        @media (max-width:600px){
+            .specs-grid{grid-template-columns:1fr 1fr;}
+            .galeria-thumbs img{width:64px;height:48px;}
+        }
+
+        /* ===== FOOTER ===== */
+        footer{background:var(--dark);border-top:1px solid var(--dark-2);padding:64px 0 28px;color:rgba(253,252,248,0.6);}
+        .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px;}
+        .footer-logo{font-family:var(--font-display);font-size:20px;margin-bottom:14px;color:var(--bg);}
+        .footer-logo .veiculos{color:var(--red);}
+        footer p.desc{color:rgba(253,252,248,0.55);font-size:14px;max-width:280px;margin-bottom:20px;}
+        .socials{display:flex;gap:12px;}
+        .socials a{
+            width:36px;height:36px;border:1px solid rgba(253,252,248,0.25);border-radius:50%;
+            display:flex;align-items:center;justify-content:center;font-size:14px;
+            transition:border-color .2s, color .2s;color:rgba(253,252,248,0.6);
+        }
+        .socials a:hover{border-color:var(--red);color:var(--red);}
+        .footer-col h4{
+            font-family:var(--font-mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;
+            color:rgba(253,252,248,0.4);margin-bottom:16px;
+        }
+        .footer-col a, .footer-col p{
+            display:block;color:rgba(253,252,248,0.6);font-size:14px;margin-bottom:11px;
+        }
+        .footer-col a:hover{color:var(--bg);}
+        .footer-bottom{
+            border-top:1px solid rgba(253,252,248,0.12);padding-top:22px;
+            display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+            font-size:12px;color:rgba(253,252,248,0.4);
+        }
+
+        /* ===== WHATSAPP FLOAT ===== */
+        .wa-float{
+            position:fixed;bottom:24px;right:24px;z-index:200;
+            background:var(--red);color:#fff;width:56px;height:56px;border-radius:50%;
+            display:flex;align-items:center;justify-content:center;font-size:24px;
+            box-shadow:0 10px 26px rgba(226,38,44,0.4);
+            transition:transform .2s;
+        }
+        .wa-float:hover{transform:scale(1.08);}
+        @media (max-width:920px){.footer-grid{grid-template-columns:1fr 1fr;}}
+        @media (max-width:600px){.footer-grid{grid-template-columns:1fr;}}
     </style>
 </head>
-<body class="bg-gray-50 font-sans">
-    <!-- Header/Navigation -->
-    <header class="bg-black shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center">
-                <a href="{% url 'home' %}" class="text-2xl font-bold text-red-500">Cesar<span class="text-white">Veiculos</span></a>
-            </div>
-            <nav class="hidden md:flex space-x-8">
-                <a href="{% url 'home' %}" class="text-white hover:text-red-500 font-medium">Home</a>
-                <a href="{% url 'home' %}#catalogo" class="text-white hover:text-red-500 font-medium">Catálogo</a>
-                <a href="{% url 'home' %}#contato" class="text-white hover:text-red-500 font-medium">Contato</a>
-            </nav>
-            <div class="flex items-center space-x-4">
-                <a href="{% url 'home' %}" class="text-red-500 hover:text-orange-600">
-                    <i class="fas fa-arrow-left mr-1"></i> Voltar ao Catálogo
-                </a>
-            </div>
-        </div>
-    </header>
+<body>
 
-    <!-- Breadcrumb -->
-    <div class="bg-white border-b border-gray-200 py-3">
-        <div class="container mx-auto px-4">
-            <nav class="flex text-sm text-gray-600">
-                <a href="index.html" class="hover:text-orange-500">Home</a>
-                <span class="mx-2">›</span>
-                <a href="index.html#catalogo" class="hover:text-orange-500">Catálogo</a>
-                <span class="mx-2">›</span>
-                <a href="#" class="text-orange-500">{{veiculo.marca}} {{veiculo.modelo}} {{veiculo.ano}}</a>
-            </nav>
+<header>
+    <div class="nav wrap">
+        <a href="{% url 'home' %}" class="logo">
+            <span class="cesar">CESAR<span class="veiculos"> VEÍCULOS</span></span>
+            <span class="tag">VENDA · TROCA · COMPRA · FINANCIO</span>
+        </a>
+        <nav class="links">
+            <a href="{% url 'estoque' %}">Estoque</a>
+            <a href="{% url 'enviar_veiculo' %}">Venda seu veículo</a>
+            <a href="{% url 'financie' %}">Financie</a>
+            <a href="{% url 'home' %}#localizacao">Localização</a>
+        </nav>
+        <div style="display:flex;gap:10px;align-items:center">
+            <a href="https://wa.me/5514998138869" class="cta-btn">Falar no WhatsApp</a>
+            <button class="burger" aria-label="Abrir menu">☰</button>
         </div>
     </div>
+</header>
 
-    <!-- Vehicle Main Content -->
-    <main class="container mx-auto px-4 py-8">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Vehicle Gallery -->
-            <div>
-                <div class="bg-white rounded-lg shadow-md p-4">
-                    <div class="relative mb-4">
-                        {% if veiculo.imagem %}
-                            <img id="mainGalleryImage"
-                                src="{{ veiculo.imagem.url }}"
-                                alt="Imagem principal"
-                                class="w-full h-auto rounded-lg gallery-main">
-                            {% elif veiculo.imagens_adicionais.all %}
-                            <img id="mainGalleryImage"
-                                src="{{ veiculo.imagens_adicionais.first.imagem.url }}"
-                                alt="Imagem principal"
-                                class="w-full h-auto rounded-lg gallery-main">
-                            {% else %}
-                            <img id="mainGalleryImage"
-                                src="/static/img/sem-imagem.png"
-                                alt="Sem imagem"
-                                class="w-full h-auto rounded-lg gallery-main">
-                            {% endif %}
-                        
-                        <div class="absolute top-4 left-4">
-                            <span class="bg-green-500 text-white text-sm font-bold px-3 py-1 rounded-full">NOVO</span>
-                        </div>
-                        
-                        <div class="absolute top-4 right-4">
-                            <button class="bg-white text-gray-700 p-2 rounded-full shadow-md hover:text-orange-500">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Thumbnail Gallery -->
-
-                    <div class="grid grid-cols-4 gap-2">
-                        
-                        {% if veiculo.imagem %}
-                            <img src="{{ veiculo.imagem.url }}" 
-                                alt="{{ veiculo.marca }} {{ veiculo.modelo }} - Principal" 
-                                class="gallery-thumb w-full h-20 object-cover rounded border-2 border-transparent active"
-                                onclick="changeMainImage(this)">
-                        {% endif %}
-
-                        {% for imagem_adicional in veiculo.imagens_adicionais.all %}
-                            
-                            <img src="{{ imagem_adicional.imagem.url }}" 
-                                alt="Foto {{ forloop.counter }} de {{ veiculo.modelo }}" 
-                                class="gallery-thumb w-full h-20 object-cover rounded border-2 border-transparent"
-                                onclick="changeMainImage(this)">
-                                
-                        {% empty %}
-                            <div class="col-span-4 text-center text-gray-500 text-sm">Nenhuma galeria de fotos adicional.</div>
-                        {% endfor %}
-                    </div>
-
-
-
-                    <!-- Additional Info -->
-                    <div class="mt-6 p-4 bg-orange-50 rounded-lg">
-                        <h3 class="font-bold text-orange-800 mb-2">
-                            <i class="fas fa-certificate mr-2"></i>Veículo Certificado
-                        </h3>
-                        <p class="text-sm text-orange-700">
-                            Este veículo passou por rigorosa inspeção de 200 itens e possui 12 meses de garantia.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Vehicle Details and Actions -->
-            <div>
-                <!-- Price and Basic Info -->
-                <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-                    <h1 class="text-2xl font-bold text-gray-900 mb-2">{{ veiculo.marca }} {{ veiculo.modelo }} {{veiculo.motor}}</h1>
-                    <p class="text-gray-600 mb-4">{{ veiculo.ano }} • 5.000 km • Prata • {{ veiculo.tipo_combustivel}}</p>
-                    
-                    <div class="flex items-center justify-between mb-6">
-                        <div>
-                            <span class="text-3xl font-bold text-blue-900">R$ {{veiculo.preco}}</span>
-                            <span class="text-gray-500 text-sm ml-2">à vista</span>
-                        </div>
-                        <button class="text-gray-600 hover:text-orange-500">
-                            <i class="fas fa-heart fa-2x"></i>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                        <a href="tel:+5514998138869"
-                        class="bg-red-500 hover:bg-red-400 text-white font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center">
-                    <i class="fas fa-phone-alt mr-2"></i> Falar com Vendedor
-            </a>
-
-                        <a href="{% url 'simular_financiamento' veiculo.id %}"
-                            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center">
-                            <i class="fas fa-calculator mr-2"></i> Simular Financiamento
-                        </a>
-                    </div>
-
-                    <!-- Quick Stats -->
-                    <div class="grid grid-cols-4 gap-4 text-center">
-                        <div class="p-2">
-                            <i class="fas fa-gas-pump text-2xl text-gray-600 mb-2"></i>
-                            <p class="text-sm font-medium">Flex</p>
-                        </div>
-                        <div class="p-2">
-                            <i class="fas fa-cog text-2xl text-gray-600 mb-2"></i>
-                            <p class="text-sm font-medium">{{veiculo.cambio}}</p>
-                        </div>
-                        <div class="p-2">
-                            <i class="fas fa-door-open text-2xl text-gray-600 mb-2"></i>
-                            <p class="text-sm font-medium">{{veiculo.portas}} portas</p>
-                        </div>
-                        <div class="p-2">
-                            <i class="fas fa-road text-2xl text-gray-600 mb-2"></i>
-                            <p class="text-sm font-medium">{{veiculo.quilometragem}} km</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Specifications -->
-                <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-                    <h2 class="text-xl font-bold text-gray-900 mb-4">Especificações Técnicas</h2>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="specification-card p-3 rounded-lg border border-gray-200">
-                            <p class="text-sm text-gray-500">Marca</p>
-                            <p class="font-medium">{{veiculo.marca}}</p>
-                        </div>
-                        <div class="specification-card p-3 rounded-lg border border-gray-200">
-                            <p class="text-sm text-gray-500">Modelo</p>
-                            <p class="font-medium">{{veiculo.modelo}}</p>
-                        </div>
-                        <div class="specification-card p-3 rounded-lg border border-gray-200">
-                            <p class="text-sm text-gray-500">Ano</p>
-                            <p class="font-medium">{{veiculo.ano}}</p>
-                        </div>
-                        <div class="specification-card p-3 rounded-lg border border-gray-200">
-                            <p class="text-sm text-gray-500">Quilometragem</p>
-                            <p class="font-medium">`{{veiculo.quilometragem}} km</p>
-                        </div>
-                        <div class="specification-card p-3 rounded-lg border border-gray-200">
-                            <p class="text-sm text-gray-500">Cor</p>
-                            <p class="font-medium">{{veiculo.cor}}</p>
-                        </div>
-                        <div class="specification-card p-3 rounded-lg border border-gray-200">
-                            <p class="text-sm text-gray-500">Combustível</p>
-                            <p class="font-medium">{{veiculo.tipo_combustivel}}</p>
-                        </div>
-                        <div class="specification-card p-3 rounded-lg border border-gray-200">
-                            <p class="text-sm text-gray-500">Câmbio</p>
-                            <p class="font-medium">{{veiculo.cambio}}</p>
-                        </div>
-                        <div class="specification-card p-3 rounded-lg border border-gray-200">
-                            <p class="text-sm text-gray-500">Portas</p>
-                            <p class="font-medium">4</p>
-                        </div>
-                        <div class="specification-card p-3 rounded-lg border border-gray-200">
-                            <p class="text-sm text-gray-500">Motor</p>
-                            <p class="font-medium">{{veiculo.motor}}</p>
-                        </div>
-                        
-                    </div>
-                </div>
-
-                <!-- Equipment -->
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h2 class="text-xl font-bold text-gray-900 mb-4">Itens de Série</h2>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-2"></i>
-                            <span class="text-sm">Ar Condicionado Digital</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-2"></i>
-                            <span class="text-sm">Direção Elétrica</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-2"></i>
-                            <span class="text-sm">Vidros e Travas Elétricas</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-2"></i>
-                            <span class="text-sm">Computador de Bordo</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-2"></i>
-                            <span class="text-sm">Sensor de Estacionamento</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-2"></i>
-                            <span class="text-sm">Câmera de Ré</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-2"></i>
-                            <span class="text-sm">Multimídia com Tela Touch</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-2"></i>
-                            <span class="text-sm">USB e Bluetooth</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-2"></i>
-                            <span class="text-sm">Volante com Comandos</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-2"></i>
-                            <span class="text-sm">Faróis de Neblina</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-2"></i>
-                            <span class="text-sm">Rodas de Liga Leve 16"</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-2"></i>
-                            <span class="text-sm">Airbag Duplo</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-2"></i>
-                            <span class="text-sm">Controle de Tração</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-check text-green-500 mr-2"></i>
-                            <span class="text-sm">ABS</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Description and Seller Info -->
-        <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Description -->
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-xl font-bold text-gray-900 mb-4">Descrição do Veículo</h2>
-                <p class="text-gray-700 mb-4">
-                    Toyota Corolla XEi 2022 em excelente estado de conservação, único dono, com toda documentação em dia e histórico de manutenção completo na concessionária. Veículo nunca sofreu acidentes ou sinistros.
-                </p>
-                <p class="text-gray-700 mb-4">
-                    Equipado com ar condicionado digital dual zone, direção elétrica, vidros e travas elétricas, computador de bordo, sensor de estacionamento traseiro, câmera de ré, multimídia com tela de toque 8", USB, Bluetooth, volante com comandos de áudio e cruise control, faróis de neblina, rodas de liga leve aro 16 com pneus novos, entre outros itens de série.
-                </p>
-                <p class="text-gray-700">
-                    O veículo está com revisão em dia, pintura original e interior impecável. Ótimo custo-benefício para quem busca conforto, segurança e economia.
-                </p>
-            </div>
-
-            <!-- Seller Contact -->
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-xl font-bold text-gray-900 mb-4">Entre em Contato</h2>
-                
-                <div class="mb-6">
-                    <h3 class="font-semibold text-gray-800 mb-2">Vendedor Responsável</h3>
-                    <div class="flex items-center mb-4">
-                        <div class="rounded-full overflow-hidden w-16 h-16 mr-4">
-                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/2a51761d-d16d-45af-91d1-1680ed2078c3.png" 
-                                 alt="Carlos Oliveira, consultor de vendas profissional com crachá" 
-                                 class="w-full h-full object-cover">
-                        </div>
-                        <div>
-                            <p class="font-bold">Paulo Cesar</p>
-                            <p class="text-orange-500 text-sm">Consultor de Vendas</p>
-                            <div class="flex mt-1">
-                                <span class="text-yellow-400">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </span>
-                                <span class="text-sm text-gray-600 ml-1">4.8 (142 avaliações)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="space-y-3">
-                    <a href="https://wa.me/5514998138869" class="flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
-                        <i class="fab fa-whatsapp mr-2 text-lg"></i> WhatsApp
-                    </a>
-                    
-                    <a href="tel:+5514998138869" class="flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
-                        <i class="fas fa-phone-alt mr-2"></i> Ligar Agora
-                    </a>
-                    
-                    <a href="https://www.instagram.com/cesar.veiculos_/" target="_blank" rel="noopener noreferrer" class="w-full inline-block">
-                        <button class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center">
-                            <i class="fab fa-instagram mr-2"></i> Acessar Instagram
-                        </button>
-                    </a>
-                </div>
-
-                <div class="mt-6 p-4 bg-blue-50 rounded-lg">
-                    <h3 class="font-semibold text-blue-800 mb-2">
-                        <i class="fas fa-info-circle mr-2"></i>Informações Importantes
-                    </h3>
-                    <p class="text-sm text-blue-700">
-                        • Test-drive disponível com agendamento<br>
-                        • Aceitamos seu veículo na troca<br>
-                        • Financiamento com as melhores taxas<br>
-                        • Documentação 100% regularizada
-                    </p>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Financing Calculator Modal (would be implemented in real app) -->
-    <div id="financingModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-black bg-opacity-50">
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-white rounded-lg p-6 max-w-md w-full">
-                <h3 class="text-xl font-bold mb-4">Simular Financiamento</h3>
-                <p class="text-gray-600 mb-4">Funcionalidade de simulação de financiamento seria implementada aqui com integração a sistemas bancários.</p>
-                <button onclick="closeFinancingModal()" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg">
-                    Fechar
-                </button>
-            </div>
-        </div>
+<main>
+    <div class="wrap breadcrumb">
+        <a href="{% url 'estoque' %}">Estoque</a> / <span>{{ veiculo.marca }} {{ veiculo.modelo }}</span>
     </div>
 
-    <script>
-        // Gallery functionality
-        function changeMainImage(thumb) {
-            const mainImage = document.getElementById('mainGalleryImage');
-            mainImage.src = thumb.src;
-            mainImage.alt = thumb.alt;
-            
-            // Update active state
-            document.querySelectorAll('.gallery-thumb').forEach(img => {
-                img.classList.remove('active');
-                img.classList.remove('border-orange-500');
-                img.classList.add('border-transparent');
-            });
-            
-            thumb.classList.add('active');
-            thumb.classList.add('border-orange-500');
-            thumb.classList.remove('border-transparent');
-        }
+    <section class="detalhe wrap">
+        <div class="detalhe-grid">
+            <div>
+                <div class="galeria-principal">
+                    {% if veiculo.imagem %}
+                      <img id="foto-principal" src="{{ veiculo.imagem.url }}" alt="{{ veiculo.marca }} {{ veiculo.modelo }}">
+                    {% elif veiculo.imagens_adicionais.all %}
+                      <img id="foto-principal" src="{{ veiculo.imagens_adicionais.first.imagem.url }}" alt="{{ veiculo.marca }} {{ veiculo.modelo }}">
+                    {% else %}
+                      <img id="foto-principal" src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=900&q=80" alt="Foto ainda não cadastrada para {{ veiculo.marca }} {{ veiculo.modelo }}">
+                    {% endif %}
+                </div>
 
-        // Financing modal
-        function openFinancingModal() {
-            document.getElementById('financingModal').classList.remove('hidden');
-        }
+                {% if veiculo.imagem or veiculo.imagens_adicionais.all %}
+                <div class="galeria-thumbs">
+                    {% if veiculo.imagem %}
+                      <img src="{{ veiculo.imagem.url }}" alt="Foto principal de {{ veiculo.modelo }}" class="ativa" onclick="trocarFoto(this)">
+                    {% endif %}
+                    {% for foto in veiculo.imagens_adicionais.all %}
+                      <img src="{{ foto.imagem.url }}" alt="Foto {{ forloop.counter }} de {{ veiculo.modelo }}" {% if forloop.first and not veiculo.imagem %}class="ativa"{% endif %} onclick="trocarFoto(this)">
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
 
-        function closeFinancingModal() {
-            document.getElementById('financingModal').classList.add('hidden');
-        }
+            <div class="info">
+                <div class="info-eyebrow">Ficha do veículo</div>
+                <h1>{{ veiculo.marca }} {{ veiculo.modelo }}</h1>
+                <div class="ano-cor">
+                    <span>{{ veiculo.ano }}</span>
+                    {% if veiculo.cor %}<span> · {{ veiculo.cor }}</span>{% endif %}
+                </div>
 
-        // Add to favorites
-        document.querySelector('button:hover:text-orange-500').addEventListener('click', function() {
-            this.classList.toggle('text-orange-500');
-            alert('Veículo adicionado aos favoritos!');
+                <div class="plate-tag">
+                    <span class="plate-top">CESAR VEÍCULOS</span>
+                    <span class="plate-num">{{ veiculo.preco|brl }}</span>
+                </div>
+
+                <div class="specs-grid">
+                    <div class="spec-item"><div class="rotulo">Quilometragem</div><div class="valor">{{ veiculo.quilometragem }} km</div></div>
+                    <div class="spec-item"><div class="rotulo">Câmbio</div><div class="valor">{{ veiculo.cambio|default:'Não informado' }}</div></div>
+                    <div class="spec-item"><div class="rotulo">Combustível</div><div class="valor">{{ veiculo.get_tipo_combustivel_display }}</div></div>
+                    <div class="spec-item"><div class="rotulo">Ano</div><div class="valor">{{ veiculo.ano }}</div></div>
+                    <div class="spec-item"><div class="rotulo">Cor</div><div class="valor">{{ veiculo.cor|default:'Não informada' }}</div></div>
+                    <div class="spec-item"><div class="rotulo">Portas</div><div class="valor">{{ veiculo.portas }}</div></div>
+                    <div class="spec-item"><div class="rotulo">Motor</div><div class="valor">{{ veiculo.motor|default:'Não informado' }}</div></div>
+                    {% if veiculo.potencia %}<div class="spec-item"><div class="rotulo">Potência</div><div class="valor">{{ veiculo.potencia }}</div></div>{% endif %}
+                </div>
+
+                <div class="info-actions">
+                    <a href="https://wa.me/5514998138869?text=Tenho%20interesse%20no%20{{ veiculo.marca|urlencode }}%20{{ veiculo.modelo|urlencode }}%20({{ veiculo.ano }})" class="cta-btn">Tenho interesse</a>
+                    <a href="{% url 'financie' %}?veiculo={{ veiculo.id }}" class="cta-btn" style="background:var(--dark);border-color:var(--dark);">Quero financiar este veículo</a>
+                    <a href="{% url 'estoque' %}" class="cta-btn" style="background:transparent;color:var(--ink);border-color:var(--border);">Ver outros veículos</a>
+                </div>
+
+                {% if veiculo.descricao %}
+                <div class="descricao">
+                    <h2>Sobre este veículo</h2>
+                    <p>{{ veiculo.descricao }}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="wrap">
+        <div class="footer-grid">
+            <div>
+                <div class="footer-logo">CESAR<span class="veiculos"> VEÍCULOS</span></div>
+                <p class="desc">Concessionária de veículos seminovos em Ourinhos, SP. Compra, venda, troca e financiamento — direto e sem enrolação, desde 2011.</p>
+                <div class="socials">
+                    <a href="https://www.instagram.com/cesar.veiculos_/" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+                    <a href="https://wa.me/5514998138869" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Navegação</h4>
+                <a href="{% url 'estoque' %}">Estoque</a>
+                <a href="{% url 'financie' %}">Financie</a>
+                <a href="{% url 'home' %}#localizacao">Localização</a>
+                <a href="{% url 'home' %}#contato">Contato</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contato</h4>
+                <p>(14) 99813-8869</p>
+                <p>cesarveiculos@gmail.com</p>
+                <p>Rua Antonio Carlos Mori, 754 — Centro<br>Ourinhos, SP</p>
+            </div>
+            <div class="footer-col">
+                <h4>Horário</h4>
+                <p>Seg a Sex — 08h às 18h</p>
+                <p>Sábado — 08h às 13h</p>
+                <p>Domingo — Fechado</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 Cesar Veículos. Todos os direitos reservados.</span>
+            <span>Desenvolvido por P2T Digital</span>
+            <span>Feito pra quem não gosta de perder tempo.</span>
+        </div>
+    </div>
+</footer>
+
+<a href="https://wa.me/5514998138869" class="wa-float" aria-label="Falar no WhatsApp"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></a>
+
+<script>
+    document.querySelector('.burger').addEventListener('click', function(){
+        const links = document.querySelector('nav.links');
+        const open = links.style.display === 'flex';
+        links.style.display = open ? 'none' : 'flex';
+        links.style.flexDirection = 'column';
+        links.style.position = 'absolute';
+        links.style.top = '100%';
+        links.style.left = '0';
+        links.style.right = '0';
+        links.style.background = '#fdfcf8';
+        links.style.padding = '20px 24px';
+        links.style.borderBottom = '1px solid #e5e1d3';
+        links.style.boxShadow = '0 12px 24px rgba(20,20,22,0.08)';
+        links.style.gap = '18px';
+    });
+
+    function trocarFoto(thumb) {
+        document.getElementById('foto-principal').src = thumb.src;
+
+        document.querySelectorAll('.galeria-thumbs img').forEach(function (img) {
+            img.classList.remove('ativa');
         });
 
-        // Simulate financing button
-        document.querySelector('button:contains("Simular Financiamento")').addEventListener('click', openFinancingModal);
-    </script>
+        thumb.classList.add('ativa');
+    }
+</script>
+
 </body>
 </html>
-

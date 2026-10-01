@@ -1,0 +1,130 @@
+{% load static monetario %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financie seu próximo carro — Cesar Veículos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#fdfcf8;--bg-alt:#f2efe6;--surface:#fff;--border:#e5e1d3;--ink:#17171a;--ink-dim:#63656a;--red:#e2262c;--red-dark:#9c161b;--dark:#141416;--font-display:'Archivo Black',sans-serif;--font-body:'Barlow',sans-serif;--font-mono:'Space Mono',monospace}
+    *{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--font-body)}a{color:inherit;text-decoration:none}.wrap{max-width:1200px;margin:0 auto;padding:0 24px}:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+    header{position:sticky;top:0;z-index:100;background:rgba(253,252,248,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;gap:20px}.logo{font:22px/.95 var(--font-display);letter-spacing:.5px;display:flex;flex-direction:column;white-space:nowrap}.logo .cesar{color:var(--ink)}.logo .veiculos{color:var(--red)}.logo .tag{font:400 9px var(--font-mono);color:var(--ink-dim);letter-spacing:2px;margin-top:4px}
+    nav.links{display:flex;align-items:center;gap:28px}nav.links a{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-dim);position:relative}nav.links a:hover{color:var(--ink)}nav.links a::after{content:'';position:absolute;left:0;bottom:-6px;height:2px;width:0;background:var(--red);transition:width .2s}nav.links a:hover::after{width:100%}
+    .cta-btn{display:inline-block;background:var(--red);color:#fff;border:1px solid var(--red);padding:12px 20px;border-radius:2px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}.cta-btn:hover{background:var(--red-dark);border-color:var(--red-dark)}.burger{display:none;background:none;border:0;color:var(--ink);font:26px var(--font-body);cursor:pointer}
+    main{padding:64px 0 88px}.page-heading{max-width:720px;margin:0 auto 32px;text-align:center}.eyebrow{font:11px var(--font-mono);letter-spacing:2.5px;text-transform:uppercase;color:var(--red);margin-bottom:10px}.page-heading h1{font:clamp(30px,4vw,46px)/1.08 var(--font-display);margin-bottom:12px}.page-heading p{color:var(--ink-dim);font-size:17px}
+    .form-card{max-width:760px;margin:auto;background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:36px;box-shadow:0 14px 34px rgba(20,20,22,.07)}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:700;letter-spacing:.5px}.field input,.field select{width:100%;min-height:46px;border:1px solid #d8d4ca;border-radius:3px;background:#fff;color:var(--ink);padding:10px 12px;font:15px var(--font-body)}.field input:focus,.field select:focus{outline:2px solid rgba(226,38,44,.16);border-color:var(--red)}.field-hint{font-size:12px;color:var(--ink-dim)}.privacy-note{margin:22px 0;color:var(--ink-dim);font-size:13px}.form-submit{width:100%;border:0;cursor:pointer;text-align:center}.form-submit:hover{cursor:pointer}
+    footer{background:var(--dark);color:rgba(253,252,248,.6);padding:24px 0;font-size:13px}.footer-row{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}.footer-row a{color:#fff}
+    @media(max-width:920px){nav.links{display:none}.burger{display:block}}
+    @media(max-width:600px){.wrap{padding:0 16px}.nav{padding:16px}.logo{font-size:19px}.logo .tag{font-size:8px;letter-spacing:1px}.cta-btn{font-size:11px;padding:10px 12px}.form-card{padding:24px 18px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}main{padding:44px 0 64px}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="nav wrap">
+    <a href="{% url 'home' %}#top" class="logo"><span class="cesar">CESAR<span class="veiculos"> VEÍCULOS</span></span><span class="tag">VENDA · TROCA · COMPRA · FINANCIO</span></a>
+    <nav class="links">
+      <a href="{% url 'estoque' %}">Estoque</a>
+      <a href="{% url 'enviar_veiculo' %}">Venda seu veículo</a>
+      <a href="{% url 'financie' %}">Financie</a>
+      <a href="{% url 'home' %}#localizacao">Localização</a>
+    </nav>
+    <div style="display:flex;gap:10px;align-items:center">
+      <a href="https://wa.me/5514998138869" class="cta-btn">Falar no WhatsApp</a>
+      <button class="burger" aria-label="Abrir menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="page-heading">
+      <div class="eyebrow">Seu próximo carro está mais perto</div>
+      <h1>Vamos conversar sobre financiamento?</h1>
+      <p>Preencha seus dados e abriremos uma conversa no WhatsApp com sua solicitação pronta para enviar.</p>
+    </div>
+
+    <form class="form-card" id="financing-form">
+      <div class="form-grid">
+        <div class="field full">
+          <label for="nome">Nome completo</label>
+          <input id="nome" name="nome" type="text" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="telefone">Seu telefone / WhatsApp</label>
+          <input id="telefone" name="telefone" type="tel" autocomplete="tel" required>
+        </div>
+        <div class="field">
+          <label for="nascimento">Data de nascimento</label>
+          <input id="nascimento" name="nascimento" type="date" autocomplete="bday" required>
+        </div>
+        <div class="field">
+          <label for="cpf">CPF</label>
+          <input id="cpf" name="cpf" type="text" inputmode="numeric" autocomplete="off" maxlength="14" placeholder="000.000.000-00" required>
+        </div>
+        <div class="field">
+          <label for="cnh">Possui CNH?</label>
+          <select id="cnh" name="cnh" required>
+            <option value="" selected disabled>Selecione</option>
+            <option value="Sim">Sim</option>
+            <option value="Não">Não</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="entrada">Valor disponível para entrada (opcional)</label>
+          <input id="entrada" name="entrada" type="text" inputmode="decimal" placeholder="Ex.: 5.000">
+        </div>
+        <div class="field">
+          <label for="veiculo">Veículo de interesse (opcional)</label>
+          <input id="veiculo" name="veiculo" type="text" value="{% if veiculo %}{{ veiculo.marca }} {{ veiculo.modelo }} ({{ veiculo.ano }}){% endif %}" placeholder="Ex.: modelo ou faixa de preço">
+        </div>
+      </div>
+      <p class="privacy-note">Ao continuar, os dados preenchidos serão incluídos na mensagem do WhatsApp para a Cesar Veículos.</p>
+      <button type="submit" class="cta-btn form-submit">Continuar pelo WhatsApp</button>
+    </form>
+  </div>
+</main>
+
+<footer><div class="wrap footer-row"><span>© 2026 Cesar Veículos · Ourinhos, SP</span><span>(14) 99813-8869</span><span>Desenvolvido por P2T Digital</span></div></footer>
+
+<script>
+  document.getElementById('financing-form').addEventListener('submit', function(event){
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const nascimento = String(data.get('nascimento')).split('-').reverse().join('/');
+    const mensagem = [
+      'Olá! Gostaria de conversar sobre financiamento.',
+      '',
+      `Nome: ${data.get('nome')}`,
+      `Telefone/WhatsApp: ${data.get('telefone')}`,
+      `Data de nascimento: ${nascimento}`,
+      `CPF: ${data.get('cpf')}`,
+      `Possui CNH: ${data.get('cnh')}`,
+      `Valor disponível para entrada: ${data.get('entrada') || 'Não informado'}`,
+      `Veículo de interesse: ${data.get('veiculo') || 'Não informado'}`
+    ].join('\n');
+    window.location.assign(`https://wa.me/5514998138869?text=${encodeURIComponent(mensagem)}`);
+  });
+
+  document.querySelector('.burger').addEventListener('click', function(){
+    const links = document.querySelector('nav.links');
+    const open = links.style.display === 'flex';
+    links.style.display = open ? 'none' : 'flex';
+    links.style.flexDirection = 'column';
+    links.style.position = 'absolute';
+    links.style.top = '100%';
+    links.style.left = '0';
+    links.style.right = '0';
+    links.style.background = '#fdfcf8';
+    links.style.padding = '20px 24px';
+    links.style.borderBottom = '1px solid #e5e1d3';
+    links.style.boxShadow = '0 12px 24px rgba(20,20,22,0.08)';
+    links.style.gap = '18px';
+  });
+</script>
+</body>
+</html>

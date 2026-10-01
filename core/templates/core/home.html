@@ -1,323 +1,530 @@
-{% extends 'core/base.html' %}
-{% load static %}
-<body class="bg-gray-50 font-sans">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cesar Veículos — Venda · Troca · Compra · Financio</title>
+  {% load static monetario %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root{
+      --bg:#fdfcf8;
+      --bg-alt:#f2efe6;
+      --surface:#ffffff;
+      --border:#e5e1d3;
+      --ink:#17171a;
+      --ink-dim:#63656a;
+      --red:#e2262c;
+      --red-dark:#9c161b;
+      --dark:#141416;
+      --dark-2:#1c1c1f;
+      --font-display:'Archivo Black', sans-serif;
+      --font-body:'Barlow', sans-serif;
+      --font-mono:'Space Mono', monospace;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{
+      background:var(--bg);
+      color:var(--ink);
+      font-family:var(--font-body);
+      line-height:1.5;
+      overflow-x:hidden;
+    }
+    a{color:inherit;text-decoration:none;}
+    img{display:block;max-width:100%;}
+    .wrap{max-width:1200px;margin:0 auto;padding:0 24px;}
+    :focus-visible{outline:3px solid var(--red);outline-offset:3px;}
 
+    /* ===== HEADER ===== */
+    header{
+      position:sticky;top:0;z-index:100;
+      background:rgba(253,252,248,0.92);
+      backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--border);
+    }
+    .nav{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:18px 24px;
+    }
+    .home-banner{width:100%;height:clamp(300px,35vw,480px);overflow:hidden;line-height:0;}
+    .home-banner img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;}
+    .logo{
+      font-family:var(--font-display);
+      font-size:22px;
+      letter-spacing:0.5px;
+      display:flex;flex-direction:column;line-height:0.95;
+    }
+    .logo .cesar{color:var(--ink);}
+    .logo .veiculos{color:var(--red);}
+    .logo .tag{
+      font-family:var(--font-mono);
+      font-size:9px;
+      color:var(--ink-dim);
+      letter-spacing:2px;
+      margin-top:4px;
+      font-weight:400;
+    }
+    nav.links{display:flex;gap:32px;align-items:center;}
+    nav.links a{
+      font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;
+      color:var(--ink-dim);
+      transition:color .2s;
+      position:relative;
+    }
+    nav.links a:hover{color:var(--ink);}
+    nav.links a::after{
+      content:'';position:absolute;left:0;bottom:-6px;height:2px;width:0;
+      background:var(--red);transition:width .2s;
+    }
+    nav.links a:hover::after{width:100%;}
+    .cta-btn{
+      background:var(--red);color:#fff;
+      font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;
+      padding:12px 22px;border-radius:2px;
+      border:1px solid var(--red);
+      transition:background .2s, transform .15s;
+      white-space:nowrap;
+    }
+    .cta-btn:hover{background:var(--red-dark);border-color:var(--red-dark);transform:translateY(-1px);}
+    .cta-outline{
+      background:transparent;color:var(--ink);border:1px solid var(--border);
+      font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;
+      padding:12px 22px;border-radius:2px;transition:border-color .2s, color .2s;
+    }
+    .cta-outline:hover{border-color:var(--ink);}
+    .burger{display:none;background:none;border:none;color:var(--ink);font-size:26px;cursor:pointer;}
 
+    /* ===== MARQUEE STRIP ===== */
+    .marquee{
+      background:var(--red);
+      overflow:hidden;white-space:nowrap;
+      border-top:1px solid var(--red-dark);border-bottom:1px solid var(--red-dark);
+    }
+    .marquee-track{
+      display:inline-block;padding:9px 0;
+      animation:scroll 22s linear infinite;
+      font-family:var(--font-mono);font-weight:700;font-size:12px;letter-spacing:3px;
+      color:#1a0304;
+    }
+    .marquee-track span{margin:0 18px;}
+    @keyframes scroll{
+      0%{transform:translateX(0);}
+      100%{transform:translateX(-50%);}
+    }
+    @media (prefers-reduced-motion:reduce){
+      .marquee-track{animation:none;}
+    }
 
-{% block title %}Catálogo de Veículos | Cesar Veiculos{% endblock %}
-{% block content %}
-    <!-- Hero Banner - Promotions -->
-    <section id="home" class="relative bg-black text-white">
-        <div class="max-w-7xl mx-auto px-4 py-16 sm:py-24 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
-                    Encontre o carro dos seus sonhos
-                </h1>
-                <p class="mt-6 max-w-lg mx-auto text-xl">
-                    As melhores ofertas e condições de pagamento do mercado
-                </p>
-            </div>
-        </div>
-        
-        <!-- Promotion Badge -->
-        <div class="absolute top-4 right-4 bg-orange-500 text-white px-4 py-2 rounded-full shadow-lg animate-pulse">
-            PROMOÇÕES IMPERDÍVEIS!
-        </div>
-        
-        <!-- Hero Image -->
-        <div class="w-full h-96 overflow-hidden">
-            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c1d37e62-29ba-4b6d-8899-4197ad35cde2.png" alt="Showroom moderno de concessionária com diversos carros novos e iluminação profissional" class="w-full h-full object-cover" />
-        </div>
-    </section>
+    /* ===== HERO ===== */
+    .hero{
+      padding:88px 0 64px;
+      position:relative;
+    }
+    .hero-grid{
+      display:grid;grid-template-columns:1.05fr 0.95fr;gap:56px;align-items:center;
+    }
+    .eyebrow{
+      font-family:var(--font-mono);font-size:12px;letter-spacing:3px;color:var(--red);
+      text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:10px;
+    }
+    .eyebrow::before{content:'';width:26px;height:2px;background:var(--red);display:inline-block;}
+    h1{
+      font-family:var(--font-display);
+      font-size:clamp(38px,5.4vw,64px);
+      line-height:1.02;
+      letter-spacing:-0.5px;
+      margin-bottom:22px;
+      color:var(--ink);
+    }
+    h1 .accent{color:var(--red);}
+    .hero p.lead{
+      font-size:18px;color:var(--ink-dim);max-width:460px;margin-bottom:34px;font-weight:400;
+    }
+    .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:44px;}
+    .stat-row{display:flex;gap:36px;flex-wrap:wrap;}
+    .stat{border-left:2px solid var(--red);padding-left:14px;}
+    .stat .num{font-family:var(--font-display);font-size:26px;color:var(--ink);display:block;}
+    .stat .label{font-size:12px;color:var(--ink-dim);text-transform:uppercase;letter-spacing:0.6px;}
 
-    <!-- Quick Search Section -->
-        <section class="bg-gray-100 py-12 px-4">
-    <div class="max-w-7xl mx-auto">
-        <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Busca Rápida</h2>
+    .hero-highlights{
+      padding:34px;background:var(--dark);color:var(--bg);border-left:4px solid var(--red);
+      border-radius:4px;box-shadow:0 20px 42px rgba(20,20,22,0.16);
+    }
+    .hero-highlights .panel-label{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;color:#ff777b;text-transform:uppercase;margin-bottom:12px;}
+    .hero-highlights h2{font-family:var(--font-display);font-size:clamp(22px,2.3vw,30px);line-height:1.15;margin-bottom:22px;color:#fff;}
+    .hero-highlight{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:16px 0;border-top:1px solid rgba(253,252,248,0.15);}
+    .hero-highlight .number{font-family:var(--font-mono);font-size:12px;color:#ff777b;padding-top:2px;}
+    .hero-highlight h3{font-size:15px;font-weight:700;color:#fff;margin-bottom:3px;}
+    .hero-highlight p{font-size:13px;color:rgba(253,252,248,0.65);}
 
-        <!-- Container centralizado e menor -->
-        <div class="bg-white p-6 rounded-lg shadow-md max-w-2xl mx-auto">
-            <div class="flex items-center justify-center gap-3">
+    /* ===== SECTION HEADS ===== */
+    .section{padding:88px 0;}
+    .section-head{
+      display:flex;justify-content:space-between;align-items:flex-end;
+      margin-bottom:44px;gap:24px;flex-wrap:wrap;
+    }
+    .section-head h2{
+      font-family:var(--font-display);font-size:clamp(28px,3.4vw,42px);letter-spacing:-0.5px;color:var(--ink);
+    }
+    .section-head .sub{color:var(--ink-dim);font-size:15px;max-width:440px;}
+    .section-eyebrow{
+      font-family:var(--font-mono);font-size:11px;letter-spacing:3px;color:var(--red);
+      text-transform:uppercase;margin-bottom:10px;
+    }
 
-                <!-- Input -->
-                <div class="relative w-full max-w-md">
-                    <input 
-                        type="text" 
-                        id="quick-search" 
-                        placeholder="Marca ou modelo"
-                        autocomplete="off"
-                        class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md 
-                               focus:ring-2 focus:ring-orange-500">
+    /* ===== INVENTORY GRID ===== */
+    .grid-cars{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+    .car-card{
+      background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;
+      transition:transform .25s, border-color .25s, box-shadow .25s;
+      box-shadow:0 2px 10px rgba(20,20,22,0.04);
+    }
+    .car-card:hover{transform:translateY(-6px);border-color:var(--red);box-shadow:0 18px 34px rgba(20,20,22,0.12);}
+    .car-photo{position:relative;height:200px;overflow:hidden;background:var(--bg-alt);}
+    .car-photo img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+    .car-card:hover .car-photo img{transform:scale(1.06);}
+    .car-badge{
+      position:absolute;top:12px;left:12px;
+      background:var(--red);color:#fff;font-size:10px;font-weight:700;
+      text-transform:uppercase;letter-spacing:1px;padding:5px 9px;border-radius:2px;
+    }
+    .car-body{padding:20px;}
+    .car-body h3{font-family:var(--font-display);font-size:18px;margin-bottom:4px;letter-spacing:-0.2px;color:var(--ink);}
+    .car-body .year{color:var(--ink-dim);font-size:13px;margin-bottom:14px;}
+    .car-specs{display:flex;gap:14px;margin-bottom:18px;flex-wrap:wrap;}
+    .car-specs span{
+      font-family:var(--font-mono);font-size:11px;color:var(--ink-dim);
+      border:1px solid var(--border);padding:4px 8px;border-radius:2px;
+    }
+    .car-footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:14px;}
+    .price-plate{
+      background:var(--ink);color:#fff;font-family:var(--font-mono);font-weight:700;
+      font-size:14px;padding:6px 10px;border-radius:3px;letter-spacing:0.5px;
+    }
+    .car-link{font-size:13px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:0.5px;}
+    .car-link:hover{text-decoration:underline;}
 
-                    <!-- Dropdown -->
-                    <div id="search-results"
-                        class="absolute z-10 w-full mt-1 bg-white border border-gray-300 
-                               rounded-lg shadow-lg hidden">
-                    </div>
-                </div>
+    .grid-footer{text-align:center;margin-top:44px;}
 
-                <!-- Botão Buscar -->
-                <button id="qs-btn"
-                    class="bg-orange-500 hover:bg-orange-600 text-white 
-                           px-5 py-2 text-sm font-semibold rounded-md transition whitespace-nowrap">
-                    Buscar
-                </button>
+    .grid-vazio{
+      grid-column:1 / -1;
+      text-align:center;
+      padding:56px 24px;
+      color:var(--ink-dim);
+      border:1px dashed var(--border);
+      border-radius:4px;
+    }
 
-            </div>
-        </div>
+    /* ===== FINANCE BANNER ===== */
+    .finance-banner{
+      background:linear-gradient(120deg, var(--red-dark), var(--red));
+      border-radius:6px;padding:56px 48px;
+      display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap;
+    }
+    .finance-banner h2{font-family:var(--font-display);font-size:clamp(24px,3vw,36px);max-width:520px;line-height:1.1;color:#fff;}
+    .finance-banner p{color:rgba(255,255,255,0.85);margin-top:12px;max-width:480px;}
+    .finance-banner .cta-btn{background:var(--dark);border-color:var(--dark);}
+    .finance-banner .cta-btn:hover{background:#000;border-color:#000;}
+
+    /* ===== LOCATION ===== */
+    .location-card{
+      display:grid;grid-template-columns:0.8fr 1.2fr;align-items:stretch;
+      overflow:hidden;border:1px solid var(--border);border-radius:4px;
+      background:var(--surface);box-shadow:0 2px 10px rgba(20,20,22,0.04);
+    }
+    .location-info{display:flex;flex-direction:column;justify-content:center;padding:36px;gap:24px;}
+    .location-info h3{font-family:var(--font-display);font-size:19px;margin-bottom:6px;}
+    .location-info p,.location-info a{color:var(--ink-dim);font-size:15px;}
+    .location-info a:hover{color:var(--red);}
+    .location-label{font-family:var(--font-mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:6px;}
+    .location-info .maps-btn{display:inline-flex;align-items:center;align-self:flex-start;gap:9px;width:max-content;padding:11px 14px;border:1px solid var(--border);border-radius:3px;background:var(--surface);color:var(--ink);font-size:12px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;transition:background .2s,border-color .2s,color .2s;}
+    .maps-btn i{color:var(--red);font-size:15px;}
+    .location-info .maps-btn:hover{background:var(--dark);border-color:var(--dark);color:#fff;}
+    .location-map{position:relative;width:100%;height:clamp(280px,32vw,380px);}
+    .location-map iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+
+    /* ===== FOOTER ===== */
+    footer{background:var(--dark);border-top:1px solid var(--dark-2);padding:64px 0 28px;color:rgba(253,252,248,0.6);}
+    .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px;}
+    .footer-logo{font-family:var(--font-display);font-size:20px;margin-bottom:14px;color:var(--bg);}
+    .footer-logo .veiculos{color:var(--red);}
+    footer p.desc{color:rgba(253,252,248,0.55);font-size:14px;max-width:280px;margin-bottom:20px;}
+    .socials{display:flex;gap:12px;}
+    .socials a{
+      width:36px;height:36px;border:1px solid rgba(253,252,248,0.25);border-radius:50%;
+      display:flex;align-items:center;justify-content:center;font-size:14px;
+      transition:border-color .2s, color .2s;color:rgba(253,252,248,0.6);
+    }
+    .socials .fa-brands{font-size:17px;}
+    .socials a:hover{border-color:var(--red);color:var(--red);}
+    .footer-col h4{
+      font-family:var(--font-mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;
+      color:rgba(253,252,248,0.4);margin-bottom:16px;
+    }
+    .footer-col a, .footer-col p{
+      display:block;color:rgba(253,252,248,0.6);font-size:14px;margin-bottom:11px;
+    }
+    .footer-col a:hover{color:var(--bg);}
+    .footer-bottom{
+      border-top:1px solid rgba(253,252,248,0.12);padding-top:22px;
+      display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+      font-size:12px;color:rgba(253,252,248,0.4);
+    }
+
+    /* ===== WHATSAPP FLOAT ===== */
+    .wa-float{
+      position:fixed;bottom:24px;right:24px;z-index:200;
+      background:var(--red);color:#fff;width:56px;height:56px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;font-size:24px;
+      box-shadow:0 10px 26px rgba(226,38,44,0.4);
+      transition:transform .2s;
+    }
+    .wa-float:hover{transform:scale(1.08);}
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width:920px){
+      nav.links, .hero-actions .cta-outline{display:none;}
+      .burger{display:block;}
+      .hero-grid{grid-template-columns:1fr;}
+      .grid-cars{grid-template-columns:repeat(2,1fr);}
+      .footer-grid{grid-template-columns:1fr 1fr;}
+      .finance-banner{padding:40px 28px;}
+      .location-card{grid-template-columns:1fr 1.2fr;}
+      .location-info{padding:28px;}
+    }
+    @media (max-width:600px){
+      .home-banner{height:auto;}
+      .home-banner img{height:auto;object-fit:initial;}
+      .grid-cars{grid-template-columns:1fr;}
+      .footer-grid{grid-template-columns:1fr;}
+      .hero{padding:56px 0 40px;}
+      .location-card{grid-template-columns:1fr;}
+      .location-info{padding:24px;}
+      .location-map{height:300px;}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav wrap">
+    <a href="{% url 'home' %}#top" class="logo">
+      <span class="cesar">CESAR<span class="veiculos"> VEÍCULOS</span></span>
+      <span class="tag">VENDA · TROCA · COMPRA · FINANCIO</span>
+    </a>
+    <nav class="links">
+      <a href="{% url 'estoque' %}">Estoque</a>
+      <a href="{% url 'enviar_veiculo' %}">Venda seu veículo</a>
+      <a href="{% url 'financie' %}">Financie</a>
+      <a href="{% url 'home' %}#localizacao">Localização</a>
+    </nav>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <a href="https://wa.me/5514998138869" class="cta-btn">Falar no WhatsApp</a>
+      <button class="burger" aria-label="Abrir menu">☰</button>
     </div>
-</section>
-            
-            <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-                <div class="bg-white p-4 rounded-lg shadow text-center hover:bg-orange-100 cursor-pointer transition">
-                    <i class="fas fa-car text-3xl text-orange-500 mb-2"></i>
-                    <p class="font-medium">Lançamentos</p>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow text-center hover:bg-orange-100 cursor-pointer transition">
-                    <i class="fas fa-percentage text-3xl text-orange-500 mb-2"></i>
-                    <p class="font-medium">Promoções</p>
-                </div>
-                <a href="{% url 'enviar_veiculo' %}" class="block">
-                    <div class="bg-white p-4 rounded-lg shadow text-center hover:bg-orange-100 cursor-pointer transition">
-                        <i class="fas fa-exchange-alt text-3xl text-orange-500 mb-2"></i>
-                        <p class="font-medium">Compramos seu carro!</p>
-                    </div>
-                </a>
-                <div class="bg-white p-4 rounded-lg shadow text-center hover:bg-orange-100 cursor-pointer transition">
-                    <i class="fas fa-hand-holding-usd text-3xl text-orange-500 mb-2"></i>
-                    <p class="font-medium">Financiamento</p>
-                </div>
-            </div>
+  </div>
+</header>
+
+<div class="home-banner">
+  <img src="{% static 'core/img/banner-cesar-veiculos.png' %}" alt="Cesar Veículos — venda, troca, compra e financio" fetchpriority="high">
+</div>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>VENDA ★ TROCA ★ COMPRA ★ FINANCIO ★ CESAR VEÍCULOS ★ AVALIAÇÃO JUSTA NA HORA ★</span>
+    <span>VENDA ★ TROCA ★ COMPRA ★ FINANCIO ★ CESAR VEÍCULOS ★ AVALIAÇÃO JUSTA NA HORA ★</span>
+  </div>
+</div>
+
+<main id="top">
+  <section class="hero wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Concessionária de confiança</div>
+        <h1>Seu próximo carro <span class="accent">tá aqui.</span></h1>
+        <p class="lead">Compra, venda, troca e financiamento num só lugar. Carros revisados, documentação em dia e avaliação justa — sem enrolação.</p>
+        <div class="hero-actions">
+          <a href="{% url 'estoque' %}" class="cta-btn">Ver estoque completo</a>
+          <a href="https://wa.me/5514998138869?text=Quero%20simular%20um%20financiamento" class="cta-outline">Simular financiamento</a>
         </div>
-    </section>
-
-    <!-- Vehicle Catalog -->
-    <section id="catalogo" class="py-16 px-4 bg-white">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-3xl font-bold text-gray-900 mb-8">Catálogo de Veículos</h2>
-            
-          <form method="GET" action="#catalogo" class="bg-gray-100 p-6 rounded-lg mb-8">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
-
-        <select name="marca" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
-            <option value="">Marca</option>
-            {% for marca in marcas %}
-                <option value="{{ marca }}" {% if request.GET.marca == marca %}selected{% endif %}>{{ marca }}</option>
-            {% endfor %}
-        </select>
-
-        <select name="ano" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
-            <option value="">Ano</option>
-            <option value="1995-2005">1995-2005</option>
-            <option value="2005-2010">2005-2010</option>
-            <option value="2010-2025">2010-2025</option>
-        </select>
-
-        <select name="preco" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
-            <option value="">Preço</option>
-            <option value="0-20000">Até R$ 20.000</option>
-            <option value="20000-30000">R$ 20.000 - R$ 30.000</option>
-            <option value="30000-9999999">Acima de R$ 30.000</option>
-        </select>
-
-        <select name="cor" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500">
-            <option value="">Cor</option>
-            <option>Branco</option>
-            <option>Preto</option>
-            <option>Prata</option>
-            <option>Vermelho</option>
-        </select>
-
-
-    </div>
-
-    <div class="mt-4 flex gap-3">
-        <button type="submit" 
-            class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg font-semibold transition">
-            <i class="fas fa-search mr-2"></i> Filtrar
-        </button>
-
-        <a href="?#catalogo" 
-           class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-2 rounded-lg font-semibold transition">
-            Limpar
-        </a>
-    </div>
-</form>
-            
-            <!-- Vehicle Listing -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-    
-    {% for veiculo in veiculos %}
-        <div class="vehicle-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
-            <div class="relative">
-                <a href="/veiculos/{{ veiculo.id }}/" class="block">
-
-                {% if veiculo.imagem %}
-                    <img src="{{ veiculo.imagem.url }}" 
-                        alt="{{ veiculo.marca }} {{ veiculo.modelo }} {{ veiculo.ano }}" 
-                        class="w-full h-48 object-cover" />
-                {% elif veiculo.imagens_adicionais.all %}
-                    <img src="{{ veiculo.imagens_adicionais.first.imagem.url }}" 
-                        alt="{{ veiculo.marca }} {{ veiculo.modelo }} {{ veiculo.ano }}" 
-                        class="w-full h-48 object-cover" />
-                {% else %}
-                    <img src="/static/img/sem-imagem.png" 
-                        alt="Sem imagem" 
-                        class="w-full h-48 object-cover" />
-                {% endif %}
-
-
-                {% if veiculo.km_rodados < 1000 %}
-                    <span class="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">NOVO</span>
-                {% else %}
-                    <span class="absolute top-2 left-2 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-full">USADO</span>
-                {% endif %}
-            </div>
-            
-            <div class="p-4">
-                <h3 class="text-xl font-bold text-gray-900">{{ veiculo.marca }} {{ veiculo.modelo }} {{ veiculo.ano }}</h3>
-                
-                <div class="flex items-center mt-2">
-                    <span class="text-orange-500 text-sm font-medium"><i class="fas fa-tachometer-alt mr-1"></i> {{ veiculo.quilometragem }} km</span>
-                    <span class="text-gray-500 text-sm mx-2">|</span>
-                    <span class="text-gray-700 text-sm"><i class="fas fa-gas-pump mr-1"></i> {{ veiculo.get_tipo_combustivel_display }}</span>
-                </div>
-                
-                <div class="mt-3">
-                    <span class="text-blue-900 text-xl font-bold">R$ {{ veiculo.preco }}</span>
-                </div>
-                
-                <a href="{% url 'veiculo_detalhe' veiculo.pk %}"
-                   class="mt-4 w-full bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-lg transition duration-300 vehicle-detail text-center block">
-                    Ver detalhes
-                </a>
-            </div>
+        <div class="stat-row">
+          <div class="stat"><span class="num">16 anos</span><span class="label">de estrada</span></div>
+          <div class="stat"><span class="num">4.9 / 5</span><span class="label">avaliação dos clientes</span></div>
         </div>
-    {% empty %}
-        <p class="col-span-full text-center text-gray-600">Nenhum veículo encontrado no momento.</p>
-    {% endfor %}
-    </div>
-    </div>
-
-                
-            
-            <br><hr>
+      </div>
+      <div class="hero-highlights">
+        <div class="panel-label">Atendimento em Ourinhos</div>
+        <h2>Negocie com confiança, do começo ao fim.</h2>
+        <div class="hero-highlight">
+          <span class="number">01</span>
+          <div><h3>Compra, venda e troca</h3><p>Avaliação direta e negociação transparente.</p></div>
         </div>
-    </section>
+        <div class="hero-highlight">
+          <span class="number">02</span>
+          <div><h3>Carros selecionados</h3><p>Encontre opções para diferentes momentos e necessidades.</p></div>
+        </div>
+        <div class="hero-highlight">
+          <span class="number">03</span>
+          <div><h3>Financiamento</h3><p>Conte com a equipe para conhecer suas opções.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    
+  <section class="section" id="estoque">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="section-eyebrow">Uma seleção do nosso estoque</div>
+          <h2>Estoque</h2>
+        </div>
+        <p class="sub">Explore alguns dos veículos disponíveis. Use os filtros da página de estoque para encontrar o modelo ideal.</p>
+      </div>
 
-    <!-- Location Section -->
-    <section id="contato" class="py-16 px-4 bg-white">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Nossa Localização</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div class="bg-gray-100 p-6 rounded-lg">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Visite Nossa Loja</h3>
-                    <p class="text-gray-600 mb-4">
-                        <i class="fas fa-map-marker-alt text-orange-500 mr-2"></i> Rua Antonio Carlos Mori, 754 Centro- Ourinhos/SP
-                    </p>
-                    <p class="text-gray-600 mb-4">
-                        <i class="fas fa-phone-alt text-orange-500 mr-2"></i> (14) 99813-8869
-                    </p>
-                    <p class="text-gray-600 mb-4">
-                        <i class="fas fa-envelope text-orange-500 mr-2"></i> cesarveiculos@gmail.com
-                    </p>
-                    <p class="text-gray-600 mb-4">
-                        <i class="fas fa-clock text-orange-500 mr-2"></i> Seg-Sex: 9h às 18h | Sáb: 9h às 14h
-                    </p>
-                    
-                    <div class="mt-6">
-                        <h4 class="font-bold text-gray-800 mb-3">Mande uma mensagem</h4>
-                            <a href="https://wa.me/5514998138869" class="flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
-                        <i class="fab fa-whatsapp mr-2 text-lg"></i> WhatsApp
-                    </a>
-                    </div>
-                </div>
-                
-                <div class="h-96 bg-gray-200 rounded-lg overflow-hidden">
-                    <!-- Map Integration - Placeholder -->
-                   <a href="https://maps.app.goo.gl/N23T6QMRmznkTwq86" target="_blank" rel="noopener noreferrer">
-                            <img src="{% static 'core/img/map.png' %}" 
-                             alt="Mapa da localização do Cesar Veiculos" 
-                            class="w-full h-full object-cover" />
-                    </a>
-                </div>
+      <div class="grid-cars">
+
+        {% for veiculo in veiculos %}
+        <article class="car-card">
+          <div class="car-photo">
+            {% if veiculo.quilometragem < 20000 %}<span class="car-badge">Baixa km</span>{% endif %}
+            {% if veiculo.imagem %}
+              <img src="{{ veiculo.imagem.url }}" alt="{{ veiculo.marca }} {{ veiculo.modelo }}">
+            {% elif veiculo.imagens_adicionais.all %}
+              <img src="{{ veiculo.imagens_adicionais.first.imagem.url }}" alt="{{ veiculo.marca }} {{ veiculo.modelo }}">
+            {% else %}
+              <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=700&q=80" alt="Foto ainda não cadastrada para este veículo">
+            {% endif %}
+          </div>
+          <div class="car-body">
+            <h3>{{ veiculo.marca }} {{ veiculo.modelo }}</h3>
+            <div class="year">{{ veiculo.ano }}</div>
+            <div class="car-specs">
+              <span>{{ veiculo.quilometragem }} km</span>
+              {% if veiculo.cambio %}<span>{{ veiculo.cambio }}</span>{% endif %}
+              <span>{{ veiculo.get_tipo_combustivel_display }}</span>
             </div>
+            <div class="car-footer">
+              <span class="price-plate">{{ veiculo.preco|brl }}</span>
+              <a href="{% url 'veiculo_detalhe' veiculo.pk %}" class="car-link">Ver detalhes</a>
+            </div>
+          </div>
+        </article>
+        {% empty %}
+        <div class="grid-vazio">Nenhum veículo disponível no momento. Volte em breve!</div>
+        {% endfor %}
+      </div>
+
+      <div class="grid-footer">
+        <a href="{% url 'estoque' %}" class="cta-outline">Ver todo o estoque ({{ total_veiculos }} veículos)</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="wrap">
+      <div class="finance-banner">
+        <div>
+          <h2>Simule seu financiamento agora, sem compromisso.</h2>
+          <p>Resposta em minutos direto no WhatsApp — só precisamos de alguns dados básicos.</p>
         </div>
-    </section>
-{% endblock %}
-    <!-- Footer -->
-    {% include 'core/includes/footer.html' %}
-{% block extra_js %}
-    <script src="{% static 'core/js/quick_search.js' %}"></script>
-{% endblock %}
-    <script>
-        // Mobile menu toggle
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            // In a real Django app, this would toggle the mobile menu
-            alert('Menu mobile seria exibido aqui em uma implementação completa');
-        });
-        
-        // Quick search functionality
-        const quickSearch = document.getElementById('quick-search');
-        quickSearch.addEventListener('focus', function() {
-            document.querySelector('search-results').style.display = 'block';
-        });
-        
-        quickSearch.addEventListener('blur', function() {
-            setTimeout(() => {
-                document.querySelector('search-results').style.display = 'none';
-            }, 200);
-        });
-        
-        // Vehicle detail modal
-        const modal = document.getElementById('vehicleModal');
-        const modalClose = document.querySelector('.modal-close');
-        const vehicleDetailButtons = document.querySelectorAll('.vehicle-detail');
-        const mainImage = document.getElementById('mainImage');
-        const galleryImages = document.querySelectorAll('.vehicle-gallery img');
-        
-        vehicleDetailButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const vehicleId = this.getAttribute('data-id');
-                // In a real Django app, we'd fetch vehicle details based on ID
-                modal.style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            });
-        });
-        
-        modalClose.addEventListener('click', function() {
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        });
-        
-        // Gallery image click
-        galleryImages.forEach(img => {
-            img.addEventListener('click', function() {
-                mainImage.src = this.src;
-                mainImage.alt = this.alt;
-                
-                galleryImages.forEach(i => {
-                    i.classList.remove('border-orange-500');
-                    i.classList.add('border-transparent');
-                });
-                
-                this.classList.remove('border-transparent');
-                this.classList.add('border-orange-500');
-            });
-        });
-        
-        // Close modal when clicking outside
-        window.addEventListener('click', function(event) {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        });
-    </script>
+        <a href="{% url 'financie' %}" class="cta-btn">Preencher simulação</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="localizacao">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="section-eyebrow">Venha nos visitar</div>
+          <h2>Localização</h2>
+        </div>
+        <p class="sub">Endereço, telefone e mapa para chegar até a loja.</p>
+      </div>
+      <div class="location-card">
+        <div class="location-info">
+          <div>
+            <div class="location-label">Endereço</div>
+            <h3>Venha nos visitar</h3>
+            <p>Rua Antonio Carlos Mori, 754 — Centro, Ourinhos, SP.</p>
+          </div>
+          <div>
+            <div class="location-label">Telefone</div>
+            <a href="tel:+5514998138869">(14) 99813-8869</a>
+          </div>
+          <a class="maps-btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=-22.978735079204572%2C-49.86768082383902" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-location-dot" aria-hidden="true"></i><span>Abrir rota no Maps</span></a>
+        </div>
+        <div class="location-map">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3673.2254671005976!2d-49.86768082383902!3d-22.978735079204572!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94c019d115acbc0d%3A0x9fb195eb944ed517!2sCesar%20Veiculos!5e0!3m2!1spt-BR!2sbr!4v1790862830959!5m2!1spt-BR!2sbr" title="Localização da Cesar Veículos no Google Maps" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contato">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">CESAR<span class="veiculos"> VEÍCULOS</span></div>
+        <p class="desc">Concessionária de veículos seminovos em Ourinhos, SP. Compra, venda, troca e financiamento — direto e sem enrolação, desde 2011.</p>
+        <div class="socials">
+          <a href="https://www.instagram.com/cesar.veiculos_/" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+          <a href="https://wa.me/5514998138869" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <a href="{% url 'estoque' %}">Estoque</a>
+        <a href="{% url 'enviar_veiculo' %}">Venda seu veículo</a>
+        <a href="{% url 'financie' %}">Financie</a>
+        <a href="{% url 'home' %}#contato">Contato</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <p>(14) 99813-8869</p>
+        <p>cesarveiculos@gmail.com</p>
+        <p>Rua Antonio Carlos Mori, 754 — Centro<br>Ourinhos, SP</p>
+      </div>
+      <div class="footer-col">
+        <h4>Horário</h4>
+        <p>Seg a Sex — 08h às 18h</p>
+        <p>Sábado — 08h às 13h</p>
+        <p>Domingo — Fechado</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Cesar Veículos. Todos os direitos reservados.</span>
+      <span>Desenvolvido por P2T Digital</span>
+      <span>Feito pra quem não gosta de perder tempo.</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/5514998138869" class="wa-float" aria-label="Falar no WhatsApp"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></a>
+
+<script>
+  document.querySelector('.burger').addEventListener('click', function(){
+    const links = document.querySelector('nav.links');
+    const open = links.style.display === 'flex';
+    links.style.display = open ? 'none' : 'flex';
+    links.style.flexDirection = 'column';
+    links.style.position = 'absolute';
+    links.style.top = '100%';
+    links.style.left = '0';
+    links.style.right = '0';
+    links.style.background = '#fdfcf8';
+    links.style.padding = '20px 24px';
+    links.style.borderBottom = '1px solid #e5e1d3';
+    links.style.boxShadow = '0 12px 24px rgba(20,20,22,0.08)';
+    links.style.gap = '18px';
+  });
+</script>
 
 </body>
 </html>
-

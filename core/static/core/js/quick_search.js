@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div class="flex flex-col">
                                 <span class="font-semibold text-gray-800">${item.label}</span>
                                 <span class="text-sm text-gray-500">${item.ano}</span>
-                                <span class="text-sm font-medium text-orange-600">R$ ${item.preco}</span>
+                                <span class="text-sm font-medium text-orange-600">${item.preco}</span>
                             </div>
                         `;
 
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (q.length < 1) return;
 
         // redireciona pro catálogo com filtro
-        window.location.href = `/?q=${encodeURIComponent(q)}#catalogo`;
+        window.location.href = `/estoque/?q=${encodeURIComponent(q)}`;
     });
 
     // Enter também busca
