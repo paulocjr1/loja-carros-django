@@ -14,27 +14,28 @@
     header{position:sticky;top:0;z-index:100;background:rgba(253,252,248,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
     .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;gap:20px}.logo{font:22px/.95 var(--font-display);letter-spacing:.5px;display:flex;flex-direction:column;white-space:nowrap}.logo .cesar{color:var(--ink)}.logo .veiculos{color:var(--red)}.logo .tag{font:400 9px var(--font-mono);color:var(--ink-dim);letter-spacing:2px;margin-top:4px}
     nav.links{display:flex;align-items:center;gap:28px}nav.links a{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-dim);position:relative}nav.links a:hover{color:var(--ink)}nav.links a::after{content:'';position:absolute;left:0;bottom:-6px;height:2px;width:0;background:var(--red);transition:width .2s}nav.links a:hover::after{width:100%}
-    .cta-btn{display:inline-block;background:var(--red);color:#fff;border:1px solid var(--red);padding:12px 20px;border-radius:2px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}.cta-btn:hover{background:var(--red-dark);border-color:var(--red-dark)}.burger{display:none;background:none;border:0;color:var(--ink);font:26px var(--font-body);cursor:pointer}
+    .cta-btn{display:inline-block;background:var(--red);color:#fff;border:1px solid var(--red);padding:12px 20px;border-radius:2px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}.cta-btn:hover{background:var(--red-dark);border-color:var(--red-dark)}.burger{display:none;width:44px;height:44px;flex:0 0 44px;align-items:center;justify-content:center;background:none;border:1px solid var(--border);border-radius:3px;color:var(--ink);font:26px/1 var(--font-body);cursor:pointer}.mobile-whatsapp{display:none}
     main{padding:64px 0 88px}.page-heading{max-width:720px;margin:0 auto 32px;text-align:center}.eyebrow{font:11px var(--font-mono);letter-spacing:2.5px;text-transform:uppercase;color:var(--red);margin-bottom:10px}.page-heading h1{font:clamp(30px,4vw,46px)/1.08 var(--font-display);margin-bottom:12px}.page-heading p{color:var(--ink-dim);font-size:17px}
     .form-card{max-width:760px;margin:auto;background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:36px;box-shadow:0 14px 34px rgba(20,20,22,.07)}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:700;letter-spacing:.5px}.field input,.field select{width:100%;min-height:46px;border:1px solid #d8d4ca;border-radius:3px;background:#fff;color:var(--ink);padding:10px 12px;font:15px var(--font-body)}.field input:focus,.field select:focus{outline:2px solid rgba(226,38,44,.16);border-color:var(--red)}.field-hint{font-size:12px;color:var(--ink-dim)}.privacy-note{margin:22px 0;color:var(--ink-dim);font-size:13px}.form-submit{width:100%;border:0;cursor:pointer;text-align:center}.form-submit:hover{cursor:pointer}
     footer{background:var(--dark);color:rgba(253,252,248,.6);padding:24px 0;font-size:13px}.footer-row{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}.footer-row a{color:#fff}
-    @media(max-width:920px){nav.links{display:none}.burger{display:block}}
-    @media(max-width:600px){.wrap{padding:0 16px}.nav{padding:16px}.logo{font-size:19px}.logo .tag{font-size:8px;letter-spacing:1px}.cta-btn{font-size:11px;padding:10px 12px}.form-card{padding:24px 18px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}main{padding:44px 0 64px}}
+    @media(max-width:920px){nav.links{display:none}nav.links.is-open{position:absolute;top:100%;left:0;right:0;z-index:101;display:flex;flex-direction:column;align-items:stretch;gap:0;padding:8px 20px 18px;background:var(--bg);border-bottom:1px solid var(--border);box-shadow:0 12px 24px rgba(20,20,22,.1)}nav.links.is-open a{padding:12px 0}.burger{display:flex}.mobile-whatsapp{display:block;margin-top:8px!important;padding:12px 16px!important;background:var(--red);border-radius:3px;color:#fff!important;text-align:center}}
+    @media(max-width:600px){.wrap{padding:0 16px}.nav{width:100%;min-height:68px;gap:10px;padding:10px 16px}.logo{min-width:0;font-size:clamp(17px,5vw,20px);letter-spacing:.2px;white-space:normal}.logo .tag{font-size:8px;letter-spacing:1px}.nav>div{gap:0!important}.nav>div>.cta-btn{display:none}.burger{width:44px;height:44px}.form-card{padding:24px 18px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}main{padding:44px 0 64px}}
   </style>
 </head>
 <body>
 <header>
   <div class="nav wrap">
     <a href="{% url 'home' %}#top" class="logo"><span class="cesar">CESAR<span class="veiculos"> VEÍCULOS</span></span><span class="tag">VENDA · TROCA · COMPRA · FINANCIO</span></a>
-    <nav class="links">
+    <nav class="links" id="site-menu">
       <a href="{% url 'estoque' %}">Estoque</a>
       <a href="{% url 'enviar_veiculo' %}">Venda seu veículo</a>
       <a href="{% url 'financie' %}">Financie</a>
       <a href="{% url 'home' %}#localizacao">Localização</a>
+      <a href="https://wa.me/5514998138869" class="mobile-whatsapp">Falar no WhatsApp</a>
     </nav>
-    <div style="display:flex;gap:10px;align-items:center">
+    <div class="header-actions" style="display:flex;gap:10px;align-items:center">
       <a href="https://wa.me/5514998138869" class="cta-btn">Falar no WhatsApp</a>
-      <button class="burger" aria-label="Abrir menu">☰</button>
+      <button class="burger" type="button" aria-label="Abrir menu" aria-controls="site-menu" aria-expanded="false">☰</button>
     </div>
   </div>
 </header>
@@ -110,20 +111,14 @@
     window.location.assign(`https://wa.me/5514998138869?text=${encodeURIComponent(mensagem)}`);
   });
 
-  document.querySelector('.burger').addEventListener('click', function(){
-    const links = document.querySelector('nav.links');
-    const open = links.style.display === 'flex';
-    links.style.display = open ? 'none' : 'flex';
-    links.style.flexDirection = 'column';
-    links.style.position = 'absolute';
-    links.style.top = '100%';
-    links.style.left = '0';
-    links.style.right = '0';
-    links.style.background = '#fdfcf8';
-    links.style.padding = '20px 24px';
-    links.style.borderBottom = '1px solid #e5e1d3';
-    links.style.boxShadow = '0 12px 24px rgba(20,20,22,0.08)';
-    links.style.gap = '18px';
+  const menuToggle = document.querySelector('.burger');
+  const siteMenu = document.getElementById('site-menu');
+  menuToggle.addEventListener('click', function(){
+    const isOpen = this.getAttribute('aria-expanded') === 'true';
+    this.setAttribute('aria-expanded', String(!isOpen));
+    this.setAttribute('aria-label', isOpen ? 'Abrir menu' : 'Fechar menu');
+    this.textContent = isOpen ? '☰' : '×';
+    siteMenu.classList.toggle('is-open', !isOpen);
   });
 </script>
 </body>
