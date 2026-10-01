@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
+from urllib.parse import parse_qs, unquote, urlparse
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -84,12 +85,38 @@ WSGI_APPLICATION = 'veiculos.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+DATABASE_URL = (
+    os.environ.get('DATABASE_URL')
+    or os.environ.get('DATABASE_POSTGRES_PRISMA_URL')
+    or os.environ.get('DATABASE_POSTGRES_URL')
+)
+if DATABASE_URL:
+    database_url = urlparse(DATABASE_URL)
+    database_query = parse_qs(database_url.query)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': unquote(database_url.path.lstrip('/')),
+            'USER': unquote(database_url.username or ''),
+            'PASSWORD': unquote(database_url.password or ''),
+            'HOST': database_url.hostname,
+            'PORT': database_url.port or '',
+            'OPTIONS': {
+                'sslmode': database_query.get('sslmode', ['require'])[-1],
+                # Supabase transaction pooling doesn't support prepared statements.
+                'prepare_threshold': None,
+            },
+            'DISABLE_SERVER_SIDE_CURSORS': True,
+            'CONN_MAX_AGE': 0,
+        },
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
