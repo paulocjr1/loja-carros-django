@@ -44,7 +44,6 @@
     <div class="nav-label">Menu principal</div>
     <nav class="side-nav">
         <a href="{% url 'painel' %}" class="{% if request.path == '/painel/' or '/editar/' in request.path or '/novo/' in request.path %}active{% endif %}"><i class="fa-solid fa-car-side"></i> Veículos</a>
-        <a href="{% url 'lista_leads' %}" class="{% if '/leads/' in request.path and 'painel/leads/' not in request.path %}active{% endif %}"><i class="fa-regular fa-file-lines"></i> Financiamentos</a>
         <a href="{% url 'lead_vendas' %}" class="{% if '/vendas/' in request.path and 'painel/vendas/' not in request.path %}active{% endif %}"><i class="fa-solid fa-arrow-right-arrow-left"></i> Avaliações de carros</a>
     </nav>
     <div class="sidebar-bottom">

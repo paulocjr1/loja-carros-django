@@ -6,7 +6,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from catalogo.models import Veiculo, VeiculoImagem
 from .forms import VeiculoForm
-from financiamento.models import LeadFinanciamento
 from vendas.models import LeadVenda
 
 # LISTAR
@@ -74,22 +73,6 @@ def deletar_veiculo(request, id):
     veiculo.delete()
     return redirect("painel")
 
-
-@login_required
-def lista_leads(request):
-    leads = LeadFinanciamento.objects.select_related('veiculo').order_by('criado_em')
-    return render(request, 'painel/leads.html', {
-        'leads': leads
-    })
-
-
-@login_required
-def detalhe_lead(request, id):
-    lead = get_object_or_404(LeadFinanciamento, id=id)
-
-    return render(request, 'painel/detalhe_lead.html', {
-        'lead': lead
-    })
 
 @login_required
 def lead_vendas(request):

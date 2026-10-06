@@ -13,7 +13,7 @@ def home(request):
 
     total_veiculos = veiculos.count()
     context = {
-        'veiculos': veiculos[:6],
+        'veiculos': veiculos[:3],
         'total_veiculos': total_veiculos,
     }
     return render(request, 'core/home.html', context)
