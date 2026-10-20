@@ -177,7 +177,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/painel/'
 LOGOUT_REDIRECT_URL = '/login/'
 CSRF_TRUSTED_ORIGINS = [
-    "https://influential-elina-nonforensically.ngrok-free.dev",
     "https://cesarveiculosourinhos.com.br",
     "https://*.vercel.app",
 ]
