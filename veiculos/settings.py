@@ -31,6 +31,7 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     'influential-elina-nonforensically.ngrok-free.dev',
+    'cesarveiculosourinhos.com.br',
     '.vercel.app',
     ]
 
@@ -177,5 +178,6 @@ LOGIN_REDIRECT_URL = '/painel/'
 LOGOUT_REDIRECT_URL = '/login/'
 CSRF_TRUSTED_ORIGINS = [
     "https://influential-elina-nonforensically.ngrok-free.dev",
+    "https://cesarveiculosourinhos.com.br",
     "https://*.vercel.app",
 ]
